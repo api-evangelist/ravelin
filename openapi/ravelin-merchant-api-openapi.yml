@@ -1,0 +1,683 @@
+openapi: 3.0.3
+info:
+  title: Ravelin Merchant API
+  version: '2'
+  description: |
+    The Ravelin Merchant API is the REST surface used by merchants to submit customer, order, login,
+    registration, transaction, payment, voucher, supplier, dispute, refund, payout, and reclaim events
+    to Ravelin and receive back a real-time risk decision. Each endpoint is POST-only, accepts a JSON
+    payload, and returns a decision envelope containing the recommended `action` (ALLOW / REVIEW /
+    PREVENT), the decision `source`, a 0-100 fraud `score`, a unique `scoreId`, the triggered `rules`,
+    and any data-quality `warnings`.
+
+    Authentication is via an `Authorization: token sk_live_...` (or `sk_test_...`) header. Per-merchant
+    rate limits scale horizontally; a global per-customer rate limit of 50 events/minute is enforced
+    and returns a 200 with `action=PREVENT` and `source=RATE_LIMIT`.
+
+    Endpoints documented at https://developer.ravelin.com/merchant/api/.
+  contact:
+    name: Ravelin Support
+    url: https://support.ravelin.com/
+  termsOfService: https://www.ravelin.com/legal/terms-of-service
+  license:
+    name: Proprietary
+servers:
+- url: https://api.ravelin.com
+  description: Production
+tags:
+- name: Checkout
+  description: Pre-payment order risk scoring.
+- name: Transactions
+  description: Payment attempts, captures, refunds, and authorizations.
+- name: Customer
+  description: Customer profile, identity, and label events.
+- name: Authentication
+  description: Login and registration events for account takeover scoring.
+- name: Vouchers
+  description: Voucher, promo, and payment-method voucher events.
+- name: Supplier
+  description: Supplier, driver, courier, and seller events for marketplace risk.
+- name: Disputes
+  description: Chargebacks, disputes, and reclaim events.
+- name: Refunds
+  description: Refund requests and decisioning.
+- name: Payouts
+  description: Outbound payouts to suppliers and recipients.
+- name: Connect
+  description: Cross-merchant identity and signal sharing.
+paths:
+  /v2/checkout:
+    post:
+      tags: [Checkout]
+      summary: Score a Checkout Event
+      operationId: createCheckout
+      description: Submit an order at checkout to receive a real-time risk decision before payment is
+        captured. Recommended as the primary pre-payment integration point.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+      responses:
+        '200':
+          description: Risk decision returned successfully.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DecisionResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/transaction:
+    post:
+      tags: [Transactions]
+      summary: Submit a Transaction Event
+      operationId: createTransaction
+      description: Submit a transaction attempt (auth, capture, auth_capture, refund, void, preauth)
+        for scoring and to keep Ravelin's transaction history in sync with the merchant's PSP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TransactionRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/payment-method:
+    post:
+      tags: [Transactions]
+      summary: Submit a Payment Method
+      operationId: createPaymentMethod
+      description: Submit a payment method associated with a customer for tokenization, link analysis,
+        and risk scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PaymentMethodRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/refund:
+    post:
+      tags: [Refunds]
+      summary: Submit a Refund Request
+      operationId: createRefund
+      description: Submit a refund request for risk scoring against refund-abuse models. Returns an
+        action recommending whether to grant the refund.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefundRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/dispute:
+    post:
+      tags: [Disputes]
+      summary: Submit a Dispute
+      operationId: createDispute
+      description: Notify Ravelin of an issuer-initiated dispute or chargeback so it can feed back into
+        ML training and link analysis.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DisputeRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/customer:
+    post:
+      tags: [Customer]
+      summary: Submit a Customer Profile
+      operationId: createCustomer
+      description: Submit or update a customer profile (identity, contact, account type, location,
+        device) for risk scoring outside of an order context.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CustomerRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/customer-label:
+    post:
+      tags: [Customer]
+      summary: Apply a Customer Label
+      operationId: createCustomerLabel
+      description: Apply or remove a fraud / trust label on a customer, e.g. to mark a customer as
+        FRAUDULENT after a confirmed chargeback. Labels feed back into ML training.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CustomerLabelRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v3/login:
+    post:
+      tags: [Authentication]
+      summary: Score a Login Event
+      operationId: createLoginV3
+      description: Submit a login attempt (successful or failed) for account takeover scoring. Supports
+        password, social, OTP, U2F, RSA, SMS, magic link, reCAPTCHA, biometric, and push authentication
+        mechanisms.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/registration:
+    post:
+      tags: [Authentication]
+      summary: Score a Registration Event
+      operationId: createRegistration
+      description: Score a new customer or supplier registration event for fake-account, breach-credential,
+        and onboarding-fraud risk.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegistrationRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/reclaim:
+    post:
+      tags: [Disputes]
+      summary: Submit a Reclaim Event
+      operationId: createReclaim
+      description: Submit a customer reclaim or goodwill credit event for refund and policy-abuse
+        scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReclaimRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/voucher:
+    post:
+      tags: [Vouchers]
+      summary: Submit a Voucher Redemption
+      operationId: createVoucher
+      description: Submit a voucher, promo code, or loyalty redemption event for promo-abuse scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VoucherRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/voucher-check:
+    post:
+      tags: [Vouchers]
+      summary: Pre-Check a Voucher Redemption
+      operationId: createVoucherCheck
+      description: Pre-flight risk check on a voucher redemption attempt before granting the voucher
+        value.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VoucherRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/payment-method-voucher:
+    post:
+      tags: [Vouchers]
+      summary: Submit a Payment-Method Voucher Event
+      operationId: createPaymentMethodVoucher
+      description: Submit a voucher event linked to a specific payment method (e.g. card-linked
+        offers) for risk scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VoucherRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/supplier:
+    post:
+      tags: [Supplier]
+      summary: Submit a Supplier Event
+      operationId: createSupplier
+      description: Submit a supplier, driver, courier, restaurant, shop, or seller profile event for
+        marketplace risk scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SupplierRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/supplier-label:
+    post:
+      tags: [Supplier]
+      summary: Apply a Supplier Label
+      operationId: createSupplierLabel
+      description: Apply or remove a fraud / trust label on a supplier to feed back into ML training.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SupplierLabelRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/payout:
+    post:
+      tags: [Payouts]
+      summary: Submit a Payout Event
+      operationId: createPayout
+      description: Submit an outbound payout event (to a supplier, marketplace seller, or recipient)
+        for risk scoring.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PayoutRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /v2/connect:
+    post:
+      tags: [Connect]
+      summary: Submit a Connect Event
+      operationId: createConnect
+      description: Submit a Ravelin Connect event for cross-merchant identity and signal sharing across
+        the consortium.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ConnectRequest' }
+      responses:
+        '200': { $ref: '#/components/responses/Decision' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+components:
+  securitySchemes:
+    secretApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Secret API key prefixed with the literal word `token`, e.g. `Authorization: token sk_live_...`.'
+  responses:
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/DecisionResponse' }
+    Unauthorized:
+      description: Invalid or missing API key.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the
+        limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    DecisionResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code echoed in the body.
+        timestamp:
+          type: integer
+          format: int64
+          description: Unix timestamp in milliseconds for when the decision was finalized.
+        message:
+          type: string
+          description: Error description, if any.
+        data:
+          type: object
+          properties:
+            action:
+              type: string
+              enum: [ALLOW, REVIEW, PREVENT, PERMIT, WARN, BLOCK]
+              description: Recommended action. PERMIT / WARN / BLOCK are legacy aliases of ALLOW /
+                REVIEW / PREVENT.
+            source:
+              type: string
+              enum: [RAVELIN, RULE, LOOKUP, RATE_LIMIT]
+              description: Source of the recommendation.
+            score:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: Fraud confidence score between 0 and 100.
+            scoreId:
+              type: string
+              description: Unique identifier for this score, used to correlate the decision with
+                downstream events.
+            customerId:
+              type: string
+              description: Customer identifier echoed back from the request.
+            rules:
+              type: array
+              items:
+                type: object
+                properties:
+                  name: { type: string }
+                  state: { type: string, enum: [active, passive] }
+                  description: { type: string }
+            warnings:
+              type: array
+              description: Data-quality warnings flagged on the input payload.
+              items: { type: object }
+    Error:
+      type: object
+      properties:
+        status: { type: integer }
+        timestamp: { type: integer, format: int64 }
+        message: { type: string }
+    Device:
+      type: object
+      properties:
+        deviceId: { type: string }
+        ipAddress: { type: string }
+        userAgent: { type: string }
+        language: { type: string }
+        location: { type: object }
+    Customer:
+      type: object
+      properties:
+        customerId: { type: string, maxLength: 300 }
+        email: { type: string, format: email }
+        registrationTime: { type: integer, format: int64 }
+        emailVerifiedTime: { type: integer, format: int64 }
+        name: { type: string }
+        familyName: { type: string }
+        givenName: { type: string }
+        telephone: { type: string, description: 'E.164 format preferred.' }
+        telephoneVerifiedTime: { type: integer, format: int64 }
+        accountType: { type: string, enum: [GUEST, REGISTERED] }
+        location:
+          type: object
+          properties:
+            country: { type: string }
+            postalCode: { type: string }
+            street: { type: string }
+            city: { type: string }
+            region: { type: string }
+    Order:
+      type: object
+      required: [orderId, creationTime, price, currency]
+      properties:
+        orderId: { type: string }
+        creationTime: { type: integer, format: int64 }
+        price: { type: integer, description: 'Total price in the currency''s basic units.' }
+        currency: { type: string, description: 'ISO 4217 currency code.' }
+        country: { type: string }
+        note: { type: string, maxLength: 4000 }
+        to: { type: object }
+        suppliers: { type: array, items: { type: object } }
+    PaymentMethod:
+      type: object
+      properties:
+        methodType: { type: string, description: 'card | wallet | bank | paypal | cash | other' }
+        instrumentId: { type: string }
+        bin: { type: string }
+        last4: { type: string }
+    CheckoutRequest:
+      type: object
+      required: [timestamp, order]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        eventType: { type: string }
+        customerId: { type: string }
+        customer: { $ref: '#/components/schemas/Customer' }
+        order: { $ref: '#/components/schemas/Order' }
+        paymentMethods:
+          type: array
+          items: { $ref: '#/components/schemas/PaymentMethod' }
+        device: { $ref: '#/components/schemas/Device' }
+    TransactionRequest:
+      type: object
+      required: [timestamp, orderId, customerId]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        orderId: { type: string, maxLength: 300 }
+        customerId: { type: string, maxLength: 300 }
+        eventType: { type: string }
+        paymentMethod: { $ref: '#/components/schemas/PaymentMethod' }
+        transaction:
+          type: object
+          properties:
+            transactionId: { type: string }
+            time: { type: integer, format: int64 }
+            amount: { type: integer }
+            currency: { type: string }
+            type: { type: string, enum: [auth, capture, auth_capture, refund, void, preauth] }
+            success: { type: boolean }
+            gateway: { type: string }
+            gatewayReference: { type: string }
+            declineCode: { type: string }
+            authCode: { type: string }
+            3ds:
+              type: object
+              properties:
+                attempted: { type: boolean }
+                challenged: { type: boolean }
+                success: { type: boolean }
+                version: { type: string }
+                eci: { type: string }
+                liabilityShifted: { type: boolean }
+        device: { $ref: '#/components/schemas/Device' }
+    PaymentMethodRequest:
+      type: object
+      required: [timestamp, customerId, paymentMethod]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        customerId: { type: string }
+        paymentMethod: { $ref: '#/components/schemas/PaymentMethod' }
+    RefundRequest:
+      type: object
+      required: [timestamp, orderId]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        orderId: { type: string }
+        customerId: { type: string }
+        refund:
+          type: object
+          properties:
+            refundId: { type: string }
+            amount: { type: integer }
+            currency: { type: string }
+            reason: { type: string }
+    DisputeRequest:
+      type: object
+      required: [timestamp, orderId]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        orderId: { type: string }
+        customerId: { type: string }
+        dispute:
+          type: object
+          properties:
+            disputeId: { type: string }
+            amount: { type: integer }
+            currency: { type: string }
+            reasonCode: { type: string }
+            status: { type: string }
+    CustomerRequest:
+      type: object
+      required: [timestamp, customer]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        customer: { $ref: '#/components/schemas/Customer' }
+        device: { $ref: '#/components/schemas/Device' }
+        custom: { type: object }
+    CustomerLabelRequest:
+      type: object
+      required: [timestamp, customerId, label]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        customerId: { type: string }
+        label:
+          type: object
+          properties:
+            value: { type: string, enum: [FRAUDULENT, TRUSTED, UNKNOWN] }
+            note: { type: string }
+            reviewer: { type: string }
+    LoginRequest:
+      type: object
+      required: [timestamp, login]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        login:
+          type: object
+          required: [username, success]
+          properties:
+            username: { type: string }
+            success: { type: boolean }
+            authenticationMechanism:
+              type: object
+              description: 'At least one of password, social, oneTimeCode, u2f, rsaKey, smsCode,
+                magicLink, captcha, biometric, push.'
+            app:
+              type: object
+              properties:
+                name: { type: string }
+                platform: { type: string }
+                domain: { type: string }
+        device: { $ref: '#/components/schemas/Device' }
+    RegistrationRequest:
+      type: object
+      required: [timestamp, registration]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        registration:
+          type: object
+          properties:
+            app:
+              type: object
+              properties:
+                name: { type: string }
+                platform: { type: string }
+                domain: { type: string }
+            registrationMechanism:
+              type: object
+              description: 'password | social | oneTimeCode | captcha | biometric.'
+        customer: { $ref: '#/components/schemas/Customer' }
+        supplier:
+          type: object
+          properties:
+            supplierId: { type: string }
+            type: { type: string, enum: [driver, courier, restaurant, shop, seller, other] }
+            email: { type: string }
+            name: { type: string }
+            telephone: { type: string }
+            groupId: { type: string }
+            groupName: { type: string }
+            registrationTime: { type: integer, format: int64 }
+        device: { $ref: '#/components/schemas/Device' }
+    ReclaimRequest:
+      type: object
+      required: [timestamp, orderId]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        orderId: { type: string }
+        customerId: { type: string }
+        reclaim:
+          type: object
+          properties:
+            reclaimId: { type: string }
+            amount: { type: integer }
+            currency: { type: string }
+            reason: { type: string }
+    VoucherRequest:
+      type: object
+      required: [timestamp, voucher]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        customerId: { type: string }
+        voucher:
+          type: object
+          properties:
+            voucherId: { type: string }
+            code: { type: string }
+            value: { type: integer }
+            currency: { type: string }
+            redeemedTime: { type: integer, format: int64 }
+    SupplierRequest:
+      type: object
+      required: [timestamp, supplier]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        supplier:
+          type: object
+          properties:
+            supplierId: { type: string }
+            type: { type: string }
+            email: { type: string }
+            name: { type: string }
+            telephone: { type: string }
+            registrationTime: { type: integer, format: int64 }
+        device: { $ref: '#/components/schemas/Device' }
+    SupplierLabelRequest:
+      type: object
+      required: [timestamp, supplierId, label]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        supplierId: { type: string }
+        label:
+          type: object
+          properties:
+            value: { type: string, enum: [FRAUDULENT, TRUSTED, UNKNOWN] }
+            note: { type: string }
+    PayoutRequest:
+      type: object
+      required: [timestamp, payout]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        payout:
+          type: object
+          properties:
+            payoutId: { type: string }
+            recipientId: { type: string }
+            amount: { type: integer }
+            currency: { type: string }
+            method: { type: string }
+    ConnectRequest:
+      type: object
+      required: [timestamp]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        customerId: { type: string }
+        signals:
+          type: array
+          items: { type: object }
+security:
+- secretApiKey: []

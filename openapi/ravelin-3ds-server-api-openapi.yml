@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: Ravelin 3D Secure Server API
+  version: '1'
+  description: |
+    Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x
+    Authentication Request (AReq), Challenge, Result, and Version Lookup operations against
+    3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted
+    PAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,
+    AEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),
+    Browser-based (BRW), and 3RI (3DS Requestor Initiated) channels.
+
+    Endpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.
+  contact:
+    name: Ravelin Support
+    url: https://support.ravelin.com/
+  termsOfService: https://www.ravelin.com/legal/terms-of-service
+  license:
+    name: Proprietary
+servers:
+- url: https://3ds.live.pci.ravelin.com
+  description: PCI 3DS production endpoint
+tags:
+- name: 3D Secure
+  description: EMV 3DS 2.x authentication operations.
+paths:
+  /3ds/version:
+    post:
+      tags: [3D Secure]
+      summary: Look Up 3DS Version for a Card
+      operationId: lookup3dsVersion
+      description: Look up the available 3DS protocol versions for a given card. Used before initiating
+        an Authentication Request to determine the supported 3DS Method URL and protocol version.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [timestamp]
+              properties:
+                timestamp: { type: integer, format: int64 }
+                pan: { type: string }
+                paymentMethod: { type: object, description: 'Encrypted payment method payload.' }
+      responses:
+        '200':
+          description: Version lookup result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threeDSServerTransID: { type: string }
+                  acsStartProtocolVersion: { type: string }
+                  acsEndProtocolVersion: { type: string }
+                  dsStartProtocolVersion: { type: string }
+                  dsEndProtocolVersion: { type: string }
+                  threeDSMethodURL: { type: string, format: uri }
+  /3ds/authenticate:
+    post:
+      tags: [3D Secure]
+      summary: Send a 3DS Authentication Request (AReq)
+      operationId: authenticate3ds
+      description: Send transaction, merchant, and cardholder data to the 3DS Server to initiate an
+        Authentication Request (AReq). Returns the transStatus and, when applicable, the data needed
+        to proceed to a challenge.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AuthenticateRequest' }
+      responses:
+        '200':
+          description: AReq result.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthenticateResponse' }
+  /3ds/challenge:
+    post:
+      tags: [3D Secure]
+      summary: Send a 3DS Challenge Request
+      operationId: challenge3ds
+      description: Submit the Challenge Request when the AReq returned transStatus=C, completing the
+        cardholder challenge flow (OTP, biometric, etc.).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [timestamp, acsTransID, threeDSServerTransID]
+              properties:
+                timestamp: { type: integer, format: int64 }
+                acsTransID: { type: string }
+                threeDSServerTransID: { type: string }
+      responses:
+        '200':
+          description: Challenge response.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthenticateResponse' }
+  /3ds/result:
+    post:
+      tags: [3D Secure]
+      summary: Retrieve a 3DS Authentication Result
+      operationId: result3ds
+      description: Retrieve the final authentication result by 3DS Server Transaction ID after a
+        Challenge has completed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [timestamp, threeDSServerTransID]
+              properties:
+                timestamp: { type: integer, format: int64 }
+                threeDSServerTransID: { type: string }
+      responses:
+        '200':
+          description: Authentication result.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthenticateResponse' }
+components:
+  securitySchemes:
+    secretApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Secret API key prefixed with `token`.'
+  schemas:
+    AuthenticateRequest:
+      type: object
+      required: [timestamp, areqData]
+      properties:
+        timestamp: { type: integer, format: int64 }
+        pan: { type: string, description: 'Unencrypted PAN, when not using an encrypted paymentMethod.' }
+        paymentMethod: { type: object, description: 'Encrypted payment method payload.' }
+        areqData:
+          type: object
+          required: [messageCategory, deviceChannel, threeDSRequestorID, threeDSRequestorName, threeDSRequestorURL]
+          properties:
+            messageCategory:
+              type: string
+              enum: ['01', '02']
+              description: '01 = Payment Authentication, 02 = Non-Payment Authentication.'
+            deviceChannel:
+              type: string
+              enum: ['01', '02', '03']
+              description: '01 = APP, 02 = BRW, 03 = 3RI.'
+            threeDSRequestorID: { type: string }
+            threeDSRequestorName: { type: string }
+            threeDSRequestorURL: { type: string, format: uri }
+            purchaseAmount: { type: string }
+            purchaseCurrency: { type: string }
+            purchaseExponent: { type: string }
+            purchaseDate: { type: string }
+            acquirerMerchantID: { type: string }
+            acquirerBIN: { type: string }
+            merchantName: { type: string }
+            merchantCountryCode: { type: string }
+            mcc: { type: string }
+    AuthenticateResponse:
+      type: object
+      properties:
+        transStatus:
+          type: string
+          enum: [Y, A, N, U, C, D, R, I, S]
+          description: |
+            Authentication outcome. Y=Authenticated, A=Attempted, N=Not authenticated,
+            U=Authentication unavailable, C=Challenge required, D=Challenge required (decoupled),
+            R=Rejected, I=Informational only, S=Challenge using cardholder-facing service.
+        authenticationValue:
+          type: string
+          description: 'CAVV / AAV / AEVV verification value, base64 encoded.'
+        acsTransID: { type: string }
+        threeDSServerTransID: { type: string }
+        eci: { type: string }
+        liabilityShifted: { type: boolean }
+        acsURL: { type: string, format: uri }
+        cReq: { type: string, description: 'Base64 Challenge Request payload, when transStatus=C.' }
+security:
+- secretApiKey: []

@@ -1,0 +1,272 @@
+aid: ravelin
+name: Ravelin
+description: Ravelin is a London-based fraud detection and prevention platform offering AI-native, real-time
+  decisioning APIs for online merchants. Their products cover payment fraud, chargeback recovery, account
+  takeover (ATO) protection, refund and policy abuse, marketplace and supplier fraud, and a PSP-agnostic 3D
+  Secure server. Ravelin combines per-merchant machine learning models, graph network analysis, and a
+  consortium database of identity signals to score every customer interaction across checkout, login,
+  registration, and post-transaction events.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+- Fraud Prevention
+- Fraud Detection
+- Chargeback Prevention
+- Account Takeover
+- 3D Secure
+- Risk Scoring
+- Payments
+- Machine Learning
+url: https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.19'
+apis:
+- aid: ravelin:ravelin-merchant-api
+  name: Ravelin Merchant API
+  description: The Ravelin Merchant API is a REST interface for submitting customer, order, transaction,
+    payment, login, registration, voucher, supplier, dispute, refund, payout, and reclaim events to
+    Ravelin and receiving back real-time risk decisions (ALLOW / REVIEW / PREVENT) with a 0-100 fraud
+    score, the matched rules, and warnings. All endpoints are POST-only under https://api.ravelin.com,
+    authenticated with a secret API key in the Authorization header, and respond with a structured
+    decision envelope including action, source, score, scoreId, and any triggered rules.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Fraud Prevention
+  - Fraud Detection
+  - Chargeback Prevention
+  - Risk Scoring
+  - Account Takeover
+  properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: Errors
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: OpenAPI
+    url: openapi/ravelin-merchant-api-openapi.yml
+- aid: ravelin:ravelin-3ds-server-api
+  name: Ravelin 3D Secure Server API
+  description: A PSP-agnostic, PCI 3DS-validated 3D Secure Server API for authenticating cardholders
+    under EMV 3DS 2.x. Provides the Authentication Request (AReq), Challenge, Result, and Version Lookup
+    operations against 3ds.live.pci.ravelin.com. Supports dynamic exemption routing, card scheme-specific
+    fields (CAVV/AAV/AEVV), liability shift signaling, and integration with iOS, Android, and
+    browser-side SDKs.
+  humanURL: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  baseURL: https://3ds.live.pci.ravelin.com
+  tags:
+  - 3D Secure
+  - EMV 3DS
+  - Strong Customer Authentication
+  - PSD2
+  - Payments
+  properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: Errors
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+  - type: OpenAPI
+    url: openapi/ravelin-3ds-server-api-openapi.yml
+- aid: ravelin:ravelin-psp-api
+  name: Ravelin PSP API
+  description: A purpose-built API surface for Payment Service Providers (PSPs) embedding Ravelin's
+    risk scoring and dispute capture into their own merchant-facing product. Exposes Score,
+    Transaction, Dispute, and the full 3D Secure operation set under the same authentication and
+    decision envelope as the Merchant API.
+  humanURL: https://developer.ravelin.com/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Fraud Prevention
+  - Payment Service Provider
+  - Risk Scoring
+  - Disputes
+  properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+- aid: ravelin:ravelin-callbacks-api
+  name: Ravelin Callbacks API
+  description: Outbound webhook callbacks delivered by Ravelin to merchant-configured endpoints when
+    manual reviews, order decisions, or refund decisions are completed in the Ravelin dashboard.
+    Used to keep order-management, fulfillment, and customer-service systems in sync with Ravelin's
+    human-in-the-loop review outcomes.
+  humanURL: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
+  tags:
+  - Webhooks
+  - Callbacks
+  - Manual Review
+  - Order Management
+  properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/callbacks/
+  - type: OpenAPI
+    url: openapi/ravelin-callbacks-api-openapi.yml
+common:
+- type: Website
+  url: https://www.ravelin.com/
+- type: Portal
+  url: https://developer.ravelin.com/
+- type: Documentation
+  url: https://developer.ravelin.com/merchant/
+- type: SignUp
+  url: https://www.ravelin.com/contact-us
+- type: Login
+  url: https://dashboard.ravelin.com/
+- type: Pricing
+  url: https://www.ravelin.com/contact-us
+- type: TermsOfService
+  url: https://www.ravelin.com/legal/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.ravelin.com/legal/privacy-policy
+- type: Support
+  url: https://support.ravelin.com/
+- type: HelpCenter
+  url: https://support.ravelin.com/
+- type: Blog
+  url: https://www.ravelin.com/blog
+- type: ChangeLog
+  url: https://updates.ravelin.com/en
+- type: ReleaseNotes
+  url: https://updates.ravelin.com/en
+- type: Careers
+  url: https://www.ravelin.com/careers
+- type: ContactUs
+  url: https://www.ravelin.com/contact-us
+- type: GitHubOrganization
+  url: https://github.com/unravelin
+- type: LinkedIn
+  url: https://www.linkedin.com/company/ravelin/
+- type: Twitter
+  url: https://twitter.com/ravelinhq
+- type: SDK
+  name: RavelinJS
+  url: https://github.com/unravelin/ravelinjs
+- type: SDK
+  name: Ravelin Ruby
+  url: https://github.com/unravelin/ravelin-ruby
+- type: SDK
+  name: Ravelin iOS Core SDK
+  url: https://github.com/unravelin/ravelin-core-ios-xcframework-distribution
+- type: SDK
+  name: Ravelin iOS Encrypt SDK
+  url: https://github.com/unravelin/ravelin-encrypt-ios-xcframework-distribution
+- type: SDK
+  name: Ravelin iOS 3DS SDK
+  url: https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution
+- type: SDK
+  name: Ravelin Android (Core and 3DS)
+  url: https://developer.ravelin.com/merchant/libraries-and-sdks/android/core-sdk/android/
+- type: ReferenceImplementation
+  name: Ravelin 3DS Server Reference Integration
+  url: https://github.com/unravelin/ravelin-3ds-demo
+- type: Compliance
+  name: PCI-DSS
+  url: https://www.ravelin.com/
+- type: Compliance
+  name: PCI 3DS
+  url: https://www.ravelin.com/
+- type: Compliance
+  name: ISO 27001:2022
+  url: https://www.ravelin.com/
+- name: Features
+  type: Features
+  data:
+  - name: Per-Merchant Machine Learning
+    description: Custom ML models trained and tuned to each merchant's traffic, products, and fraud
+      patterns rather than a single global model.
+  - name: Graph Network Analysis
+    description: Link analysis across customers, devices, payment instruments, and addresses to
+      surface hidden fraud rings and shared-identity clusters.
+  - name: Consortium Identity Database
+    description: A shared identity-signals consortium spanning 9+ billion identity elements used to
+      enrich risk scoring across all merchants.
+  - name: Real-Time Decisioning
+    description: ALLOW / REVIEW / PREVENT decisions returned synchronously on every checkout, login,
+      registration, voucher, and transaction event.
+  - name: PSP-Agnostic 3D Secure
+    description: A 3DS Server that works with any acquirer or PSP, supports dynamic exemption routing,
+      and is bundled with native iOS and Android 3DS SDKs.
+  - name: Manual Review Workflow
+    description: Built-in dashboard for human review of borderline cases with webhook callbacks to
+      sync decisions back to the merchant's order management system.
+  - name: Rules Engine
+    description: Merchant-authored rules layered on top of ML scores, executed in active or passive
+      mode so new rules can be safely shadow-tested before going live.
+  - name: Per-Customer Rate Limiting
+    description: A built-in 50 events-per-minute-per-customer guardrail that returns a PREVENT action
+      with source RATE_LIMIT to defend against scripted abuse.
+- name: UseCases
+  type: UseCases
+  data:
+  - name: Online Payment Fraud and Chargeback Prevention
+    description: Scoring checkout and transaction events to block fraudulent orders before they ship
+      and reduce card scheme chargebacks.
+  - name: Account Takeover (ATO) Protection
+    description: Risk-scoring login events to detect credential stuffing, breach reuse, and session
+      hijacking attempts in real time.
+  - name: Refund and Policy Abuse
+    description: Detecting customers who systematically exploit refund, return, and goodwill policies
+      across orders and channels.
+  - name: Promo, Voucher, and Loyalty Abuse
+    description: Scoring voucher and promo redemption events to stop bonus stacking, multi-accounting,
+      and referral fraud.
+  - name: Marketplace and Supplier Fraud
+    description: Risk-scoring suppliers, drivers, couriers, sellers, and other marketplace participants
+      to detect collusion and onboarding fraud.
+  - name: 3D Secure and SCA Optimization
+    description: Running EMV 3DS 2.x authentication through Ravelin's 3DS Server with dynamic
+      exemption routing to maximize approval and shift liability where appropriate.
+- name: Integrations
+  type: Integrations
+  data:
+  - name: Payment Service Providers
+    description: Integrates with major PSPs and acquirers via the PSP API and the PSP-agnostic 3DS
+      Server.
+  - name: Order Management Systems
+    description: Order, refund, and manual-review decisions are pushed to downstream OMS via webhook
+      callbacks.
+  - name: iOS Applications
+    description: Native iOS Core, Encrypt, and 3DS SDKs distributed as XCFrameworks.
+  - name: Android Applications
+    description: Native Android Core and 3DS SDKs with bundled ProGuard rules.
+  - name: Web Applications
+    description: RavelinJS browser SDK for device fingerprinting, encryption, and 3DS browser flows.
+- name: Solutions
+  type: Solutions
+  data:
+  - name: Payment Fraud
+    description: End-to-end protection of the checkout and transaction surface for online merchants.
+  - name: Account Security
+    description: Login, registration, and credential-event scoring for ATO prevention.
+  - name: Refund Abuse
+    description: Detection of refund and return abuse across orders and channels.
+  - name: Marketplace Risk
+    description: Supplier, courier, and seller risk scoring for marketplaces and gig platforms.
+  - name: 3D Secure and Transaction Optimization
+    description: PSP-agnostic 3DS Server with exemption routing and native mobile SDKs.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

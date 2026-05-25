@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: Ravelin Callbacks API
+  version: '1'
+  description: |
+    Outbound webhook callbacks that Ravelin POSTs to a merchant-configured HTTPS endpoint when
+    a manual review, order decision, or refund decision is completed inside the Ravelin dashboard.
+    Used to keep order-management, fulfillment, and customer-service systems in sync with
+    human-in-the-loop review outcomes.
+
+    Endpoint patterns are merchant-defined; the schemas below describe the request bodies that
+    Ravelin will deliver. Authentication uses an optional shared secret token configured per
+    callback.
+
+    Documentation: https://developer.ravelin.com/merchant/api/callbacks/.
+  contact:
+    name: Ravelin Support
+    url: https://support.ravelin.com/
+  license:
+    name: Proprietary
+servers:
+- url: https://merchant.example.com
+  description: 'Merchant-configured callback endpoint (placeholder — replace with your own URL).'
+tags:
+- name: Callbacks
+  description: Outbound webhook events delivered by Ravelin.
+paths:
+  /webhooks/ravelin/order-decisions:
+    post:
+      tags: [Callbacks]
+      summary: Receive an Order Decision Callback
+      operationId: receiveOrderDecision
+      description: Delivered when an order is approved, rejected, or left pending by a reviewer in
+        the Ravelin dashboard. Use to update downstream order management state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/OrderDecisionEvent' }
+      responses:
+        '200': { description: Acknowledged. }
+  /webhooks/ravelin/manual-reviews:
+    post:
+      tags: [Callbacks]
+      summary: Receive a Manual Review Callback
+      operationId: receiveManualReview
+      description: Delivered when a manual review case is completed for a customer or event.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ManualReviewEvent' }
+      responses:
+        '200': { description: Acknowledged. }
+  /webhooks/ravelin/refund-decisions:
+    post:
+      tags: [Callbacks]
+      summary: Receive a Refund Decision Callback
+      operationId: receiveRefundDecision
+      description: Delivered when a refund request is approved or rejected by a reviewer in the
+        Ravelin dashboard.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefundDecisionEvent' }
+      responses:
+        '200': { description: Acknowledged. }
+components:
+  schemas:
+    Reviewer:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string, format: email }
+    OrderDecisionEvent:
+      type: object
+      required: [orderId, label, timestamp]
+      properties:
+        orderId: { type: string }
+        label:
+          type: string
+          enum: [APPROVED, PENDING, REJECTED]
+        reviewer: { $ref: '#/components/schemas/Reviewer' }
+        timestamp: { type: string, format: date-time }
+    ManualReviewEvent:
+      type: object
+      required: [customerId, label, timestamp]
+      properties:
+        customerId: { type: string }
+        orderId: { type: string }
+        label:
+          type: string
+          enum: [FRAUDULENT, TRUSTED, UNKNOWN]
+        reviewer: { $ref: '#/components/schemas/Reviewer' }
+        timestamp: { type: string, format: date-time }
+    RefundDecisionEvent:
+      type: object
+      required: [refundId, orderId, label, timestamp]
+      properties:
+        refundId: { type: string }
+        orderId: { type: string }
+        label:
+          type: string
+          enum: [APPROVED, REJECTED, PENDING]
+        reviewer: { $ref: '#/components/schemas/Reviewer' }
+        timestamp: { type: string, format: date-time }
