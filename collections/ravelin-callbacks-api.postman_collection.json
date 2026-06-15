@@ -1,0 +1,287 @@
+{
+  "item": [
+    {
+      "id": "b2474537-0f68-4c84-a4f1-1ad99f1ce39c",
+      "name": "Callbacks",
+      "description": {
+        "content": "Outbound webhook events delivered by Ravelin.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c30b5b5e-5601-4fa6-8ef6-e19ea9343618",
+          "name": "Receive an Order Decision Callback",
+          "request": {
+            "name": "Receive an Order Decision Callback",
+            "description": {
+              "content": "Delivered when an order is approved, rejected, or left pending by a reviewer in the Ravelin dashboard. Use to update downstream order management state.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "webhooks",
+                "ravelin",
+                "order-decisions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "edf90915-7cf5-49b5-b27a-e50d6305908b",
+              "name": "Acknowledged.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "webhooks",
+                    "ravelin",
+                    "order-decisions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"orderId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "41a0bb44-43fc-4c07-99ef-69f670824414",
+          "name": "Receive a Manual Review Callback",
+          "request": {
+            "name": "Receive a Manual Review Callback",
+            "description": {
+              "content": "Delivered when a manual review case is completed for a customer or event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "webhooks",
+                "ravelin",
+                "manual-reviews"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"orderId\": \"<string>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "596a4ed0-624b-450b-be8a-c326dab58cfc",
+              "name": "Acknowledged.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "webhooks",
+                    "ravelin",
+                    "manual-reviews"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"orderId\": \"<string>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1ea4d3e-4f33-460a-8002-9956af821ed1",
+          "name": "Receive a Refund Decision Callback",
+          "request": {
+            "name": "Receive a Refund Decision Callback",
+            "description": {
+              "content": "Delivered when a refund request is approved or rejected by a reviewer in the Ravelin dashboard.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "webhooks",
+                "ravelin",
+                "refund-decisions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refundId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b89d9609-ba2e-4441-aabb-dd1e70dc6057",
+              "name": "Acknowledged.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "webhooks",
+                    "ravelin",
+                    "refund-decisions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refundId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"label\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reviewer\": {\n    \"name\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://merchant.example.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "92262352-ed8d-4e6f-9bd1-453d98cce71e",
+    "name": "Ravelin Callbacks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Outbound webhook callbacks that Ravelin POSTs to a merchant-configured HTTPS endpoint when\na manual review, order decision, or refund decision is completed inside the Ravelin dashboard.\nUsed to keep order-management, fulfillment, and customer-service systems in sync with\nhuman-in-the-loop review outcomes.\n\nEndpoint patterns are merchant-defined; the schemas below describe the request bodies that\nRavelin will deliver. Authentication uses an optional shared secret token configured per\ncallback.\n\nDocumentation: https://developer.ravelin.com/merchant/api/callbacks/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

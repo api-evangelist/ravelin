@@ -1,14 +1,23 @@
 # Ravelin (ravelin)
 
-Ravelin is a London-based fraud detection and prevention platform offering AI-native, real-time decisioning APIs for online merchants. Their products cover payment fraud, chargeback recovery, account takeover (ATO) protection, refund and policy abuse, marketplace and supplier fraud, and a PSP-agnostic 3D Secure server. Ravelin combines per-merchant machine learning models, graph network analysis, and a consortium identity database to score every customer interaction across checkout, login, registration, voucher, and post-transaction events.
+Ravelin is a London-based fraud detection and prevention platform offering AI-native, real-time decisioning APIs for online merchants. Their products cover payment fraud, chargeback recovery, account takeover (ATO) protection, refund and policy abuse, marketplace and supplier fraud, and a PSP-agnostic 3D Secure server. Ravelin combines per-merchant machine learning models, graph network analysis, and a consortium database of identity signals to score every customer interaction across checkout, login, registration, and post-transaction events.
 
-**URL:** [Visit APIs.json](https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml)
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Scope
+
+- **Type:** Index
 
 ## Tags
 
-- Fraud Prevention, Fraud Detection, Chargeback Prevention, Account Takeover, 3D Secure, Risk Scoring, Payments, Machine Learning
+- Fraud Prevention
+- Fraud Detection
+- Chargeback Prevention
+- Account Takeover
+- 3D Secure
+- Risk Scoring
+- Payments
+- Machine Learning
 
 ## Timestamps
 
@@ -18,9 +27,21 @@ Ravelin is a London-based fraud detection and prevention platform offering AI-na
 ## APIs
 
 ### Ravelin Merchant API
-The primary REST surface (`https://api.ravelin.com`) for submitting customer, order, login, registration, transaction, payment, voucher, supplier, dispute, refund, payout, and reclaim events to Ravelin. Every endpoint is POST-only, accepts a JSON payload, and returns a decision envelope with `action` (ALLOW / REVIEW / PREVENT), `source`, a 0-100 `score`, a `scoreId`, the triggered `rules`, and any data-quality `warnings`. Authentication is via `Authorization: token sk_live_...` (or `sk_test_...`).
 
-**Human URL:** [https://developer.ravelin.com/merchant/](https://developer.ravelin.com/merchant/)
+The Ravelin Merchant API is a REST interface for submitting customer, order, transaction, payment, login, registration, voucher, supplier, dispute, refund, payout, and reclaim events to Ravelin and receiving back real-time risk decisions (ALLOW / REVIEW / PREVENT) with a 0-100 fraud score, the matched rules, and warnings. All endpoints are POST-only under https://api.ravelin.com, authenticated with a secret API key in the Authorization header, and respond with a structured decision envelope including action, source, score, scoreId, and any triggered rules.
+
+- **Human URL:** [https://developer.ravelin.com/merchant/](https://developer.ravelin.com/merchant/)
+- **Base URL:** `https://api.ravelin.com`
+
+#### Tags
+
+- Fraud Prevention
+- Fraud Detection
+- Chargeback Prevention
+- Risk Scoring
+- Account Takeover
+
+#### Properties
 
 - [Documentation](https://developer.ravelin.com/merchant/)
 - [API Reference](https://developer.ravelin.com/merchant/api/)
@@ -29,102 +50,120 @@ The primary REST surface (`https://api.ravelin.com`) for submitting customer, or
 - [Errors](https://developer.ravelin.com/merchant/api/errors/)
 - [Warnings](https://developer.ravelin.com/merchant/api/warnings/)
 - [Guarantees](https://developer.ravelin.com/merchant/api/guarantees/)
+- [T L S](https://developer.ravelin.com/merchant/api/tls/)
 - [Load Testing](https://developer.ravelin.com/merchant/api/load-testing/)
-- [OpenAPI](openapi/ravelin-merchant-api-openapi.yml)
+- [OpenAPI](openapi/ravelin-merchant-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/ravelin-merchant-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-merchant-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Ravelin 3D Secure Server API
-PCI 3DS-validated, PSP-agnostic EMV 3DS 2.x server (`https://3ds.live.pci.ravelin.com`) implementing the Version Lookup, Authentication Request (AReq), Challenge, and Result operations. Supports both encrypted payment-method payloads and unencrypted PAN, dynamic exemption routing, and card-scheme verification values (CAVV / AAV / AEVV). Pairs with native iOS, Android, and browser SDKs.
 
-**Human URL:** [https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/)
+A PSP-agnostic, PCI 3DS-validated 3D Secure Server API for authenticating cardholders under EMV 3DS 2.x. Provides the Authentication Request (AReq), Challenge, Result, and Version Lookup operations against 3ds.live.pci.ravelin.com. Supports dynamic exemption routing, card scheme-specific fields (CAVV/AAV/AEVV), liability shift signaling, and integration with iOS, Android, and browser-side SDKs.
+
+- **Human URL:** [https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/)
+- **Base URL:** `https://3ds.live.pci.ravelin.com`
+
+#### Tags
+
+- 3D Secure
+- EMV 3DS
+- Strong Customer Authentication
+- PSD2
+- Payments
+
+#### Properties
 
 - [Documentation](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/)
 - [API Reference](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/)
 - [Errors](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/)
 - [Test Cards](https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/)
 - [Reference Implementation](https://github.com/unravelin/ravelin-3ds-demo)
-- [OpenAPI](openapi/ravelin-3ds-server-api-openapi.yml)
+- [OpenAPI](openapi/ravelin-3ds-server-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/ravelin-3ds-server-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-3ds-server-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Ravelin PSP API
-A purpose-built surface for Payment Service Providers embedding Ravelin's Score, Transaction, Dispute, and 3DS operations into their own merchant-facing product. Same authentication and decision envelope as the Merchant API.
 
-**Human URL:** [https://developer.ravelin.com/](https://developer.ravelin.com/)
+A purpose-built API surface for Payment Service Providers (PSPs) embedding Ravelin's risk scoring and dispute capture into their own merchant-facing product. Exposes Score, Transaction, Dispute, and the full 3D Secure operation set under the same authentication and decision envelope as the Merchant API.
+
+- **Human URL:** [https://developer.ravelin.com/](https://developer.ravelin.com/)
+- **Base URL:** `https://api.ravelin.com`
+
+#### Tags
+
+- Fraud Prevention
+- Payment Service Provider
+- Risk Scoring
+- Disputes
+
+#### Properties
 
 - [Documentation](https://developer.ravelin.com/)
 - [Authentication](https://developer.ravelin.com/merchant/api/authentication/)
+- [Postman Collection](collections/ravelin-3ds-server-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-3ds-server-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/ravelin-callbacks-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-callbacks-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/ravelin-merchant-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-merchant-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Ravelin Callbacks API
-Outbound webhooks delivered by Ravelin to merchant-configured HTTPS endpoints when a manual review, order decision, or refund decision is completed in the Ravelin dashboard. Keeps order management, fulfillment, and customer-service systems in sync with Ravelin's human-in-the-loop review outcomes.
 
-**Human URL:** [https://developer.ravelin.com/merchant/api/callbacks/order-decisions/](https://developer.ravelin.com/merchant/api/callbacks/order-decisions/)
+Outbound webhook callbacks delivered by Ravelin to merchant-configured endpoints when manual reviews, order decisions, or refund decisions are completed in the Ravelin dashboard. Used to keep order-management, fulfillment, and customer-service systems in sync with Ravelin's human-in-the-loop review outcomes.
 
-- [Order Decisions](https://developer.ravelin.com/merchant/api/callbacks/order-decisions/)
-- [Manual Reviews](https://developer.ravelin.com/merchant/api/callbacks/manual-reviews/)
-- [Refund Decisions](https://developer.ravelin.com/merchant/api/callbacks/refund-decisions/)
-- [OpenAPI](openapi/ravelin-callbacks-api-openapi.yml)
+- **Human URL:** [https://developer.ravelin.com/merchant/api/callbacks/order-decisions/](https://developer.ravelin.com/merchant/api/callbacks/order-decisions/)
 
-## Features
+#### Tags
 
-- **Per-Merchant Machine Learning** — Custom ML models trained per merchant, not a single global model.
-- **Graph Network Analysis** — Link analysis across customers, devices, payment instruments, and addresses to surface hidden fraud rings.
-- **Consortium Identity Database** — 9+ billion identity elements shared across merchants for cross-tenant signal enrichment.
-- **Real-Time Decisioning** — ALLOW / REVIEW / PREVENT returned synchronously on every event.
-- **PSP-Agnostic 3D Secure** — Works with any acquirer or PSP, with native iOS, Android, and browser SDKs.
-- **Manual Review Workflow** — Dashboard for human review with webhook callbacks to the merchant's OMS.
-- **Rules Engine** — Merchant-authored rules layered over ML scores; supports active and passive (shadow) modes.
-- **Per-Customer Rate Limiting** — 50 events/minute/customer guardrail returning PREVENT with `source=RATE_LIMIT`.
+- Webhooks
+- Callbacks
+- Manual Review
+- Order Management
 
-## Use Cases
+#### Properties
 
-- Online payment fraud and chargeback prevention
-- Account takeover (ATO) protection on login and credential events
-- Refund and policy abuse detection
-- Promo, voucher, and loyalty abuse prevention
-- Marketplace and supplier fraud (drivers, couriers, sellers)
-- 3D Secure / SCA optimization with dynamic exemption routing
-
-## SDKs and Libraries
-
-- [RavelinJS — Browser SDK](https://github.com/unravelin/ravelinjs)
-- [Ravelin Ruby](https://github.com/unravelin/ravelin-ruby)
-- [Ravelin iOS Core SDK (XCFramework)](https://github.com/unravelin/ravelin-core-ios-xcframework-distribution)
-- [Ravelin iOS Encrypt SDK (XCFramework)](https://github.com/unravelin/ravelin-encrypt-ios-xcframework-distribution)
-- [Ravelin iOS 3DS SDK (XCFramework)](https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution)
-- [Ravelin Android — Core SDK](https://developer.ravelin.com/merchant/libraries-and-sdks/android/core-sdk/android/)
-- [Ravelin Android — 3DS SDK](https://developer.ravelin.com/merchant/libraries-and-sdks/android/3ds-sdk/android/)
-- [Ravelin 3DS Server Reference Integration (Go)](https://github.com/unravelin/ravelin-3ds-demo)
+- [Documentation](https://developer.ravelin.com/merchant/api/callbacks/order-decisions/)
+- [API Reference](https://developer.ravelin.com/merchant/api/callbacks/)
+- [OpenAPI](openapi/ravelin-callbacks-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/ravelin-callbacks-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/ravelin-callbacks-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ## Common Properties
 
 - [Website](https://www.ravelin.com/)
-- [Developer Portal](https://developer.ravelin.com/)
+- [Portal](https://developer.ravelin.com/)
 - [Documentation](https://developer.ravelin.com/merchant/)
-- [Dashboard Login](https://dashboard.ravelin.com/)
-- [Support / Help Center](https://support.ravelin.com/)
+- [Sign Up](https://www.ravelin.com/contact-us)
+- [Login](https://dashboard.ravelin.com/)
+- [Pricing](https://www.ravelin.com/contact-us)
+- [Terms of Service](https://www.ravelin.com/legal/terms-of-service)
+- [Privacy Policy](https://www.ravelin.com/legal/privacy-policy)
+- [Support](https://support.ravelin.com/)
+- [Help Center](https://support.ravelin.com/)
 - [Blog](https://www.ravelin.com/blog)
-- [Product Updates / Changelog](https://updates.ravelin.com/en)
+- [Changelog](https://updates.ravelin.com/en)
+- [Release Notes](https://updates.ravelin.com/en)
 - [Careers](https://www.ravelin.com/careers)
-- [Contact Sales / Pricing](https://www.ravelin.com/contact-us)
+- [Contact Us](https://www.ravelin.com/contact-us)
 - [GitHub Organization](https://github.com/unravelin)
 - [LinkedIn](https://www.linkedin.com/company/ravelin/)
-- [Twitter / X](https://twitter.com/ravelinhq)
-
-## Compliance
-
-- PCI-DSS certified
-- PCI 3DS validated
-- ISO 27001:2022 compliant
-- Visa Global Registry of Service Providers member
-
-## Artifacts
-
-### OpenAPI
-
-- [Ravelin Merchant API](openapi/ravelin-merchant-api-openapi.yml)
-- [Ravelin 3D Secure Server API](openapi/ravelin-3ds-server-api-openapi.yml)
-- [Ravelin Callbacks API](openapi/ravelin-callbacks-api-openapi.yml)
+- [Twitter](https://twitter.com/ravelinhq)
+- [SDK](https://github.com/unravelin/ravelinjs)
+- [SDK](https://github.com/unravelin/ravelin-ruby)
+- [SDK](https://github.com/unravelin/ravelin-core-ios-xcframework-distribution)
+- [SDK](https://github.com/unravelin/ravelin-encrypt-ios-xcframework-distribution)
+- [SDK](https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution)
+- [SDK](https://developer.ravelin.com/merchant/libraries-and-sdks/android/core-sdk/android/)
+- [Reference Implementation](https://github.com/unravelin/ravelin-3ds-demo)
+- [Compliance](https://www.ravelin.com/)
+- [Compliance](https://www.ravelin.com/)
+- [Compliance](https://www.ravelin.com/)
+- [Features](undefined)
+- [Use Cases](undefined)
+- [Integrations](undefined)
+- [Solutions](undefined)
 
 ## Maintainers
 
 **FN:** Kin Lane
-
 **Email:** kin@apievangelist.com

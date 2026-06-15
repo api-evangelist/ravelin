@@ -2,6 +2,13 @@
   "repo": "ravelin",
   "feeds": [
     {
+      "source": "https://www.ravelin.com/blog",
+      "feed_url": "https://www.ravelin.com/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://support.ravelin.com/",
       "feed_url": "https://support.ravelin.com/",
       "title": "",
@@ -10,5 +17,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-01T23:35:02Z"
+  "fetched": "2026-06-14T20:42:17Z"
 }

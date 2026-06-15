@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Callbacks API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Callbacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Receive an Order Decision Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://merchant.example.com/webhooks/ravelin/order-decisions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delivered when an order is approved, rejected, or left pending by a reviewer in the Ravelin dashboard. Use to update downstream order management state."
+        },
+        {
+          "info": {
+            "name": "Receive a Manual Review Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://merchant.example.com/webhooks/ravelin/manual-reviews",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delivered when a manual review case is completed for a customer or event."
+        },
+        {
+          "info": {
+            "name": "Receive a Refund Decision Callback",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://merchant.example.com/webhooks/ravelin/refund-decisions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delivered when a refund request is approved or rejected by a reviewer in the Ravelin dashboard."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

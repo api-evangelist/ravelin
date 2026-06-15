@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin 3D Secure Server API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "3D Secure",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Look Up 3DS Version for a Card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/3ds/version",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Look up the available 3DS protocol versions for a given card. Used before initiating an Authentication Request to determine the supported 3DS Method URL and protocol version."
+        },
+        {
+          "info": {
+            "name": "Send a 3DS Authentication Request (AReq)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/3ds/authenticate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send transaction, merchant, and cardholder data to the 3DS Server to initiate an Authentication Request (AReq). Returns the transStatus and, when applicable, the data needed to proceed to a challenge."
+        },
+        {
+          "info": {
+            "name": "Send a 3DS Challenge Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/3ds/challenge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit the Challenge Request when the AReq returned transStatus=C, completing the cardholder challenge flow (OTP, biometric, etc.)."
+        },
+        {
+          "info": {
+            "name": "Retrieve a 3DS Authentication Result",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/3ds/result",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve the final authentication result by 3DS Server Transaction ID after a Challenge has completed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

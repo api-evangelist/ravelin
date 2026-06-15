@@ -1,0 +1,353 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Merchant API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Score a Checkout Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/checkout",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit an order at checkout to receive a real-time risk decision before payment is captured. Recommended as the primary pre-payment integration point."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Transaction Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/transaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a transaction attempt (auth, capture, auth_capture, refund, void, preauth) for scoring and to keep Ravelin's transaction history in sync with the merchant's PSP."
+        },
+        {
+          "info": {
+            "name": "Submit a Payment Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/payment-method",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a payment method associated with a customer for tokenization, link analysis, and risk scoring."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Refunds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Refund Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/refund",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a refund request for risk scoring against refund-abuse models. Returns an action recommending whether to grant the refund."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Disputes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Dispute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/dispute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notify Ravelin of an issuer-initiated dispute or chargeback so it can feed back into ML training and link analysis."
+        },
+        {
+          "info": {
+            "name": "Submit a Reclaim Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/reclaim",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a customer reclaim or goodwill credit event for refund and policy-abuse scoring."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Customer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Customer Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/customer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit or update a customer profile (identity, contact, account type, location, device) for risk scoring outside of an order context."
+        },
+        {
+          "info": {
+            "name": "Apply a Customer Label",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/customer-label",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply or remove a fraud / trust label on a customer, e.g. to mark a customer as FRAUDULENT after a confirmed chargeback. Labels feed back into ML training."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Score a Login Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v3/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a login attempt (successful or failed) for account takeover scoring. Supports password, social, OTP, U2F, RSA, SMS, magic link, reCAPTCHA, biometric, and push authentication mechanisms."
+        },
+        {
+          "info": {
+            "name": "Score a Registration Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/registration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Score a new customer or supplier registration event for fake-account, breach-credential, and onboarding-fraud risk."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Vouchers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Voucher Redemption",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/voucher",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a voucher, promo code, or loyalty redemption event for promo-abuse scoring."
+        },
+        {
+          "info": {
+            "name": "Pre-Check a Voucher Redemption",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/voucher-check",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pre-flight risk check on a voucher redemption attempt before granting the voucher value."
+        },
+        {
+          "info": {
+            "name": "Submit a Payment-Method Voucher Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/payment-method-voucher",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a voucher event linked to a specific payment method (e.g. card-linked offers) for risk scoring."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Supplier",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Supplier Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/supplier",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a supplier, driver, courier, restaurant, shop, or seller profile event for marketplace risk scoring."
+        },
+        {
+          "info": {
+            "name": "Apply a Supplier Label",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/supplier-label",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply or remove a fraud / trust label on a supplier to feed back into ML training."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payouts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Payout Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/payout",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit an outbound payout event (to a supplier, marketplace seller, or recipient) for risk scoring."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connect",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Connect Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ravelin.com/v2/connect",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a Ravelin Connect event for cross-merchant identity and signal sharing across the consortium."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
