@@ -7,7 +7,7 @@ description: Ravelin is a London-based fraud detection and prevention platform o
   consortium database of identity signals to score every customer interaction across checkout, login,
   registration, and post-transaction events.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Fraud Prevention
 - Fraud Detection
