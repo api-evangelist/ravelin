@@ -47,7 +47,7 @@ apis:
     url: https://developer.ravelin.com/merchant/api/authentication/
   - type: RateLimits
     url: https://developer.ravelin.com/merchant/api/rate-limits/
-  - type: Errors
+  - type: ErrorCodes
     url: https://developer.ravelin.com/merchant/api/errors/
   - type: Warnings
     url: https://developer.ravelin.com/merchant/api/warnings/
@@ -79,7 +79,7 @@ apis:
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
   - type: APIReference
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
-  - type: Errors
+  - type: ErrorCodes
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
   - type: TestCards
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
@@ -131,7 +131,7 @@ common:
   url: https://developer.ravelin.com/
 - type: Documentation
   url: https://developer.ravelin.com/merchant/
-- type: SignUp
+- type: Signup
   url: https://www.ravelin.com/contact-us
 - type: Login
   url: https://dashboard.ravelin.com/
@@ -161,22 +161,22 @@ common:
   url: https://www.linkedin.com/company/ravelin/
 - type: Twitter
   url: https://twitter.com/ravelinhq
-- type: SDK
+- type: SDKs
   name: RavelinJS
   url: https://github.com/unravelin/ravelinjs
-- type: SDK
+- type: SDKs
   name: Ravelin Ruby
   url: https://github.com/unravelin/ravelin-ruby
-- type: SDK
+- type: SDKs
   name: Ravelin iOS Core SDK
   url: https://github.com/unravelin/ravelin-core-ios-xcframework-distribution
-- type: SDK
+- type: SDKs
   name: Ravelin iOS Encrypt SDK
   url: https://github.com/unravelin/ravelin-encrypt-ios-xcframework-distribution
-- type: SDK
+- type: SDKs
   name: Ravelin iOS 3DS SDK
   url: https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution
-- type: SDK
+- type: SDKs
   name: Ravelin Android (Core and 3DS)
   url: https://developer.ravelin.com/merchant/libraries-and-sdks/android/core-sdk/android/
 - type: ReferenceImplementation
