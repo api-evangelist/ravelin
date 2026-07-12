@@ -125,6 +125,12 @@ apis:
   - type: OpenAPI
     url: openapi/ravelin-callbacks-api-openapi.yml
 common:
+- type: VulnerabilityDisclosure
+  url: security/ravelin-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/ravelin-domain-security.yml
+- type: Authentication
+  url: authentication/ravelin-authentication.yml
 - type: Website
   url: https://www.ravelin.com/
 - type: Portal

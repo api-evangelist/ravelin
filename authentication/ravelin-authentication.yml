@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/ravelin-3ds-server-api-openapi.yml, openapi/ravelin-merchant-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: secretApiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Secret API key prefixed with `token`.
+  sources:
+  - openapi/ravelin-3ds-server-api-openapi.yml
+  - openapi/ravelin-merchant-api-openapi.yml
