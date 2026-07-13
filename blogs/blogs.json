@@ -2,19 +2,14 @@
   "repo": "ravelin",
   "feeds": [
     {
-      "source": "https://www.ravelin.com/blog",
-      "feed_url": "",
+      "source": "https://support.ravelin.com/",
+      "feed_url": "https://support.ravelin.com/",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
-    },
-    {
-      "source": "https://updates.ravelin.com/en",
-      "feed_url": "",
-      "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-27T13:04:24Z",
-  "agent_pulled": "2026-06-27"
+  "post_count": 1,
+  "fetched": "2026-07-11T11:50:51Z",
+  "agent_pulled": "2026-07-04"
 }
