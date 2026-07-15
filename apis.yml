@@ -125,6 +125,8 @@ apis:
   - type: OpenAPI
     url: openapi/ravelin-callbacks-api-openapi.yml
 common:
+- type: AgenticAccess
+  url: agentic-access/ravelin-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/ravelin-vulnerability-disclosure.yml
 - type: DomainSecurity
