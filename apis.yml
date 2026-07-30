@@ -7,7 +7,19 @@ description: Ravelin is a London-based fraud detection and prevention platform o
   consortium database of identity signals to score every customer interaction across checkout, login,
   registration, and post-transaction events.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ravelin.png
 tags:
 - Fraud Prevention
 - Fraud Detection
@@ -22,23 +34,54 @@ created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.19'
 apis:
-- aid: ravelin:ravelin-merchant-api
-  name: Ravelin Merchant API
-  description: The Ravelin Merchant API is a REST interface for submitting customer, order, transaction,
-    payment, login, registration, voucher, supplier, dispute, refund, payout, and reclaim events to
-    Ravelin and receiving back real-time risk decisions (ALLOW / REVIEW / PREVENT) with a 0-100 fraud
-    score, the matched rules, and warnings. All endpoints are POST-only under https://api.ravelin.com,
-    authenticated with a secret API key in the Authorization header, and respond with a structured
-    decision envelope including action, source, score, scoreId, and any triggered rules.
-  humanURL: https://developer.ravelin.com/merchant/
+- aid: ravelin:ravelin-psp-api
+  name: Ravelin PSP API
+  description: >-
+    A purpose-built API surface for Payment Service Providers (PSPs) embedding Ravelin's risk scoring
+    and dispute capture into their own merchant-facing product. Exposes Score, Transaction, Dispute, and
+    the full 3D Secure operation set under the same authentication and decision envelope as the Merchant
+    API.
+  humanURL: https://developer.ravelin.com/
   baseURL: https://api.ravelin.com
   tags:
   - Fraud Prevention
-  - Fraud Detection
-  - Chargeback Prevention
+  - Payment Service Provider
   - Risk Scoring
-  - Account Takeover
+  - Disputes
   properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+- aid: ravelin:ravelin-callbacks-api
+  name: Ravelin Callbacks API
+  description: >-
+    Outbound webhook callbacks delivered by Ravelin to merchant-configured endpoints when manual reviews,
+    order decisions, or refund decisions are completed in the Ravelin dashboard. Used to keep order-management,
+    fulfillment, and customer-service systems in sync with Ravelin's human-in-the-loop review outcomes.
+  humanURL: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
+  tags:
+  - Webhooks
+  - Callbacks
+  - Manual Review
+  - Order Management
+  properties:
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/callbacks/
+  - type: OpenAPI
+    url: openapi/ravelin-callbacks-api-openapi.yml
+- aid: ravelin:ravelin-3d-secure-api
+  name: Ravelin 3D Secure API
+  description: EMV 3DS 2.x authentication operations.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - 3D Secure
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-3d-secure-api-openapi.yml
   - type: Documentation
     url: https://developer.ravelin.com/merchant/
   - type: APIReference
@@ -57,24 +100,6 @@ apis:
     url: https://developer.ravelin.com/merchant/api/tls/
   - type: LoadTesting
     url: https://developer.ravelin.com/merchant/api/load-testing/
-  - type: OpenAPI
-    url: openapi/ravelin-merchant-api-openapi.yml
-- aid: ravelin:ravelin-3ds-server-api
-  name: Ravelin 3D Secure Server API
-  description: A PSP-agnostic, PCI 3DS-validated 3D Secure Server API for authenticating cardholders
-    under EMV 3DS 2.x. Provides the Authentication Request (AReq), Challenge, Result, and Version Lookup
-    operations against 3ds.live.pci.ravelin.com. Supports dynamic exemption routing, card scheme-specific
-    fields (CAVV/AAV/AEVV), liability shift signaling, and integration with iOS, Android, and
-    browser-side SDKs.
-  humanURL: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
-  baseURL: https://3ds.live.pci.ravelin.com
-  tags:
-  - 3D Secure
-  - EMV 3DS
-  - Strong Customer Authentication
-  - PSD2
-  - Payments
-  properties:
   - type: Documentation
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
   - type: APIReference
@@ -85,45 +110,386 @@ apis:
     url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
   - type: ReferenceImplementation
     url: https://github.com/unravelin/ravelin-3ds-demo
-  - type: OpenAPI
-    url: openapi/ravelin-3ds-server-api-openapi.yml
-- aid: ravelin:ravelin-psp-api
-  name: Ravelin PSP API
-  description: A purpose-built API surface for Payment Service Providers (PSPs) embedding Ravelin's
-    risk scoring and dispute capture into their own merchant-facing product. Exposes Score,
-    Transaction, Dispute, and the full 3D Secure operation set under the same authentication and
-    decision envelope as the Merchant API.
-  humanURL: https://developer.ravelin.com/
+- aid: ravelin:ravelin-authentication-api
+  name: Ravelin Authentication API
+  description: Login and registration events for account takeover scoring.
+  humanURL: https://developer.ravelin.com/merchant/
   baseURL: https://api.ravelin.com
   tags:
-  - Fraud Prevention
-  - Payment Service Provider
-  - Risk Scoring
-  - Disputes
+  - Authentication
   properties:
+  - type: OpenAPI
+    url: openapi/ravelin-authentication-api-openapi.yml
   - type: Documentation
-    url: https://developer.ravelin.com/
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
   - type: Authentication
     url: https://developer.ravelin.com/merchant/api/authentication/
-- aid: ravelin:ravelin-callbacks-api
-  name: Ravelin Callbacks API
-  description: Outbound webhook callbacks delivered by Ravelin to merchant-configured endpoints when
-    manual reviews, order decisions, or refund decisions are completed in the Ravelin dashboard.
-    Used to keep order-management, fulfillment, and customer-service systems in sync with Ravelin's
-    human-in-the-loop review outcomes.
-  humanURL: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
-  tags:
-  - Webhooks
-  - Callbacks
-  - Manual Review
-  - Order Management
-  properties:
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
   - type: Documentation
-    url: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
   - type: APIReference
-    url: https://developer.ravelin.com/merchant/api/callbacks/
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-checkout-api
+  name: Ravelin Checkout API
+  description: Pre-payment order risk scoring.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Checkout
+  properties:
   - type: OpenAPI
-    url: openapi/ravelin-callbacks-api-openapi.yml
+    url: openapi/ravelin-checkout-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-connect-api
+  name: Ravelin Connect API
+  description: Cross-merchant identity and signal sharing.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Connect
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-connect-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-customer-api
+  name: Ravelin Customer API
+  description: Customer profile, identity, and label events.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Customer
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-customer-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-disputes-api
+  name: Ravelin Disputes API
+  description: Chargebacks, disputes, and reclaim events.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Disputes
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-disputes-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-payouts-api
+  name: Ravelin Payouts API
+  description: Outbound payouts to suppliers and recipients.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Payouts
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-payouts-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-refunds-api
+  name: Ravelin Refunds API
+  description: Refund requests and decisioning.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-supplier-api
+  name: Ravelin Supplier API
+  description: Supplier, driver, courier, and seller events for marketplace risk.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Supplier
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-supplier-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-transactions-api
+  name: Ravelin Transactions API
+  description: Payment attempts, captures, refunds, and authorizations.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
+- aid: ravelin:ravelin-vouchers-api
+  name: Ravelin Vouchers API
+  description: Voucher, promo, and payment-method voucher events.
+  humanURL: https://developer.ravelin.com/merchant/
+  baseURL: https://api.ravelin.com
+  tags:
+  - Vouchers
+  properties:
+  - type: OpenAPI
+    url: openapi/ravelin-vouchers-api-openapi.yml
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/
+  - type: Authentication
+    url: https://developer.ravelin.com/merchant/api/authentication/
+  - type: RateLimits
+    url: https://developer.ravelin.com/merchant/api/rate-limits/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/errors/
+  - type: Warnings
+    url: https://developer.ravelin.com/merchant/api/warnings/
+  - type: Guarantees
+    url: https://developer.ravelin.com/merchant/api/guarantees/
+  - type: TLS
+    url: https://developer.ravelin.com/merchant/api/tls/
+  - type: LoadTesting
+    url: https://developer.ravelin.com/merchant/api/load-testing/
+  - type: Documentation
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/authenticate/
+  - type: APIReference
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/
+  - type: ErrorCodes
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/errors/
+  - type: TestCards
+    url: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/test-cards/
+  - type: ReferenceImplementation
+    url: https://github.com/unravelin/ravelin-3ds-demo
 common:
 - type: AgenticAccess
   url: agentic-access/ravelin-agentic-access.yml
