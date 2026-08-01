@@ -1,0 +1,36 @@
+{
+  "provider": "ravelin",
+  "sources": [
+    "ravelin-3d-secure-api-openapi.yml",
+    "ravelin-authentication-api-openapi.yml",
+    "ravelin-callbacks-api-openapi.yml",
+    "ravelin-checkout-api-openapi.yml",
+    "ravelin-connect-api-openapi.yml",
+    "ravelin-customer-api-openapi.yml",
+    "ravelin-disputes-api-openapi.yml",
+    "ravelin-payouts-api-openapi.yml",
+    "ravelin-refunds-api-openapi.yml",
+    "ravelin-supplier-api-openapi.yml",
+    "ravelin-transactions-api-openapi.yml",
+    "ravelin-vouchers-api-openapi.yml"
+  ],
+  "outputs": [
+    "ravelin-3d-secure-api-openapi.yml",
+    "ravelin-authentication-api-openapi.yml",
+    "ravelin-callbacks-api-openapi.yml",
+    "ravelin-checkout-api-openapi.yml",
+    "ravelin-connect-api-openapi.yml",
+    "ravelin-customer-api-openapi.yml",
+    "ravelin-disputes-api-openapi.yml",
+    "ravelin-payouts-api-openapi.yml",
+    "ravelin-refunds-api-openapi.yml",
+    "ravelin-supplier-api-openapi.yml",
+    "ravelin-transactions-api-openapi.yml",
+    "ravelin-vouchers-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
