@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Server 3D Secure Refunds API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Refunds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Refund Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/refund",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a refund request for risk scoring against refund-abuse models. Returns an action recommending whether to grant the refund."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

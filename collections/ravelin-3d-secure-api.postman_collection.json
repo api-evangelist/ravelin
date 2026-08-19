@@ -1,0 +1,453 @@
+{
+  "item": [
+    {
+      "id": "0c12448c-689a-46ce-91b9-1269cd5a6a51",
+      "name": "3D Secure",
+      "description": {
+        "content": "EMV 3DS 2.x authentication operations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "313900ae-cec1-4f1f-a92c-527587459713",
+          "name": "Look Up 3DS Version for a Card",
+          "request": {
+            "name": "Look Up 3DS Version for a Card",
+            "description": {
+              "content": "Look up the available 3DS protocol versions for a given card. Used before initiating an Authentication Request to determine the supported 3DS Method URL and protocol version.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "3ds",
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"pan\": \"<string>\",\n  \"paymentMethod\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "219e06ed-cbdb-46ee-b404-71e2a71c0426",
+              "name": "Version lookup result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "3ds",
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"pan\": \"<string>\",\n  \"paymentMethod\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"threeDSServerTransID\": \"string\",\n  \"acsStartProtocolVersion\": \"string\",\n  \"acsEndProtocolVersion\": \"string\",\n  \"dsStartProtocolVersion\": \"string\",\n  \"dsEndProtocolVersion\": \"string\",\n  \"threeDSMethodURL\": \"https://xOjIBBWxjILaUsaAPEFQS.vbtpEaih2vA4yT5wK+iWt9ZvxlzsrwVSygQhS,P3QzbI\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b110c864-ef0f-450a-983b-887d4de18cec",
+          "name": "Send a 3DS Authentication Request (AReq)",
+          "request": {
+            "name": "Send a 3DS Authentication Request (AReq)",
+            "description": {
+              "content": "Send transaction, merchant, and cardholder data to the 3DS Server to initiate an Authentication Request (AReq). Returns the transStatus and, when applicable, the data needed to proceed to a challenge.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "3ds",
+                "authenticate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"areqData\": {\n    \"messageCategory\": \"<string>\",\n    \"deviceChannel\": \"<string>\",\n    \"threeDSRequestorID\": \"<string>\",\n    \"threeDSRequestorName\": \"<string>\",\n    \"threeDSRequestorURL\": \"<uri>\",\n    \"purchaseAmount\": \"<string>\",\n    \"purchaseCurrency\": \"<string>\",\n    \"purchaseExponent\": \"<string>\",\n    \"purchaseDate\": \"<string>\",\n    \"acquirerMerchantID\": \"<string>\",\n    \"acquirerBIN\": \"<string>\",\n    \"merchantName\": \"<string>\",\n    \"merchantCountryCode\": \"<string>\",\n    \"mcc\": \"<string>\"\n  },\n  \"pan\": \"<string>\",\n  \"paymentMethod\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "15ce019d-2a5e-47a6-a3a9-a00eb8225503",
+              "name": "AReq result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "3ds",
+                    "authenticate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"areqData\": {\n    \"messageCategory\": \"<string>\",\n    \"deviceChannel\": \"<string>\",\n    \"threeDSRequestorID\": \"<string>\",\n    \"threeDSRequestorName\": \"<string>\",\n    \"threeDSRequestorURL\": \"<uri>\",\n    \"purchaseAmount\": \"<string>\",\n    \"purchaseCurrency\": \"<string>\",\n    \"purchaseExponent\": \"<string>\",\n    \"purchaseDate\": \"<string>\",\n    \"acquirerMerchantID\": \"<string>\",\n    \"acquirerBIN\": \"<string>\",\n    \"merchantName\": \"<string>\",\n    \"merchantCountryCode\": \"<string>\",\n    \"mcc\": \"<string>\"\n  },\n  \"pan\": \"<string>\",\n  \"paymentMethod\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transStatus\": \"S\",\n  \"authenticationValue\": \"string\",\n  \"acsTransID\": \"string\",\n  \"threeDSServerTransID\": \"string\",\n  \"eci\": \"string\",\n  \"liabilityShifted\": true,\n  \"acsURL\": \"http://nFHFdjLgpUwBdDYceJUGSKcmk.mmNmefrvxu,uDJ8oI+5\",\n  \"cReq\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23d71dc2-fc42-493c-9ce8-c0964fc8f765",
+          "name": "Send a 3DS Challenge Request",
+          "request": {
+            "name": "Send a 3DS Challenge Request",
+            "description": {
+              "content": "Submit the Challenge Request when the AReq returned transStatus=C, completing the cardholder challenge flow (OTP, biometric, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "3ds",
+                "challenge"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"acsTransID\": \"<string>\",\n  \"threeDSServerTransID\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7f7e2b7d-2e07-4000-9d70-cb8cf4e74055",
+              "name": "Challenge response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "3ds",
+                    "challenge"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"acsTransID\": \"<string>\",\n  \"threeDSServerTransID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transStatus\": \"S\",\n  \"authenticationValue\": \"string\",\n  \"acsTransID\": \"string\",\n  \"threeDSServerTransID\": \"string\",\n  \"eci\": \"string\",\n  \"liabilityShifted\": true,\n  \"acsURL\": \"http://nFHFdjLgpUwBdDYceJUGSKcmk.mmNmefrvxu,uDJ8oI+5\",\n  \"cReq\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "464b4221-d229-4538-ba32-e898dd80acf9",
+          "name": "Retrieve a 3DS Authentication Result",
+          "request": {
+            "name": "Retrieve a 3DS Authentication Result",
+            "description": {
+              "content": "Retrieve the final authentication result by 3DS Server Transaction ID after a Challenge has completed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "3ds",
+                "result"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"threeDSServerTransID\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "19eb6107-ec9d-493d-95fc-70a1d2ba5937",
+              "name": "Authentication result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "3ds",
+                    "result"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"threeDSServerTransID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transStatus\": \"S\",\n  \"authenticationValue\": \"string\",\n  \"acsTransID\": \"string\",\n  \"threeDSServerTransID\": \"string\",\n  \"eci\": \"string\",\n  \"liabilityShifted\": true,\n  \"acsURL\": \"http://nFHFdjLgpUwBdDYceJUGSKcmk.mmNmefrvxu,uDJ8oI+5\",\n  \"cReq\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6b05584c-3109-4e98-bf3d-1f23498bd4e4",
+    "name": "Ravelin Server 3D Secure API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

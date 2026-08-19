@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Server 3D Secure Disputes API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Disputes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Dispute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/dispute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Notify Ravelin of an issuer-initiated dispute or chargeback so it can feed back into ML training and link analysis."
+        },
+        {
+          "info": {
+            "name": "Submit a Reclaim Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/reclaim",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a customer reclaim or goodwill credit event for refund and policy-abuse scoring."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

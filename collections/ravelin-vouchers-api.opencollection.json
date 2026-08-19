@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Ravelin Server 3D Secure Callbacks API",
+    "name": "Ravelin Server 3D Secure Vouchers API",
     "version": "1"
   },
   "request": {
@@ -15,54 +15,54 @@
   "items": [
     {
       "info": {
-        "name": "Callbacks",
+        "name": "Vouchers",
         "type": "folder"
       },
       "items": [
         {
           "info": {
-            "name": "Receive an Order Decision Callback",
+            "name": "Submit a Voucher Redemption",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://3ds.live.pci.ravelin.com/webhooks/ravelin/order-decisions",
+            "url": "https://3ds.live.pci.ravelin.com/v2/voucher",
             "body": {
               "type": "json",
               "data": "{}"
             }
           },
-          "docs": "Delivered when an order is approved, rejected, or left pending by a reviewer in the Ravelin dashboard. Use to update downstream order management state."
+          "docs": "Submit a voucher, promo code, or loyalty redemption event for promo-abuse scoring."
         },
         {
           "info": {
-            "name": "Receive a Manual Review Callback",
+            "name": "Pre-Check a Voucher Redemption",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://3ds.live.pci.ravelin.com/webhooks/ravelin/manual-reviews",
+            "url": "https://3ds.live.pci.ravelin.com/v2/voucher-check",
             "body": {
               "type": "json",
               "data": "{}"
             }
           },
-          "docs": "Delivered when a manual review case is completed for a customer or event."
+          "docs": "Pre-flight risk check on a voucher redemption attempt before granting the voucher value."
         },
         {
           "info": {
-            "name": "Receive a Refund Decision Callback",
+            "name": "Submit a Payment-Method Voucher Event",
             "type": "http"
           },
           "http": {
             "method": "POST",
-            "url": "https://3ds.live.pci.ravelin.com/webhooks/ravelin/refund-decisions",
+            "url": "https://3ds.live.pci.ravelin.com/v2/payment-method-voucher",
             "body": {
               "type": "json",
               "data": "{}"
             }
           },
-          "docs": "Delivered when a refund request is approved or rejected by a reviewer in the Ravelin dashboard."
+          "docs": "Submit a voucher event linked to a specific payment method (e.g. card-linked offers) for risk scoring."
         }
       ]
     }

@@ -1,0 +1,254 @@
+{
+  "item": [
+    {
+      "id": "34a6ec7a-e764-480e-9ef9-fc6982e3349e",
+      "name": "Refunds",
+      "description": {
+        "content": "Refund requests and decisioning.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e43be26d-ff6e-4bfe-a7a4-443b3c4ba0da",
+          "name": "Submit a Refund Request",
+          "request": {
+            "name": "Submit a Refund Request",
+            "description": {
+              "content": "Submit a refund request for risk scoring against refund-abuse models. Returns an action recommending whether to grant the refund.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"refund\": {\n    \"refundId\": \"<string>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"reason\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b2ad7968-d0b2-4108-ac50-29f70855459b",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"refund\": {\n    \"refundId\": \"<string>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"reason\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8184,\n  \"timestamp\": 4052,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"PERMIT\",\n    \"source\": \"RAVELIN\",\n    \"score\": 98,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7373b99d-96a4-4551-bf96-a771762be917",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"refund\": {\n    \"refundId\": \"<string>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"reason\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1493,\n  \"timestamp\": 1678,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e1553ae-1f61-4686-9df5-7fa025e77551",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"refund\": {\n    \"refundId\": \"<string>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"reason\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1493,\n  \"timestamp\": 1678,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fb669da2-70f9-4ea7-a154-5a57ad123cab",
+    "name": "Ravelin Server 3D Secure Refunds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

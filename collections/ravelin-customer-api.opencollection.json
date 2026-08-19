@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Server 3D Secure Customer API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Customer Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/customer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit or update a customer profile (identity, contact, account type, location, device) for risk scoring outside of an order context."
+        },
+        {
+          "info": {
+            "name": "Apply a Customer Label",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/customer-label",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply or remove a fraud / trust label on a customer, e.g. to mark a customer as FRAUDULENT after a confirmed chargeback. Labels feed back into ML training."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

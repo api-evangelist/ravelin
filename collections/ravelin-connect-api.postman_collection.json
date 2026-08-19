@@ -1,0 +1,254 @@
+{
+  "item": [
+    {
+      "id": "2a5fd337-971d-435c-b868-b7cbc1497380",
+      "name": "Connect",
+      "description": {
+        "content": "Cross-merchant identity and signal sharing.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5e5bb58f-b96e-46a5-a36d-17fefb09d660",
+          "name": "Submit a Connect Event",
+          "request": {
+            "name": "Submit a Connect Event",
+            "description": {
+              "content": "Submit a Ravelin Connect event for cross-merchant identity and signal sharing across the consortium.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "connect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"signals\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1aa7787b-a5ac-4331-883c-84655de583eb",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "connect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"signals\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8600,\n  \"timestamp\": 7810,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"BLOCK\",\n    \"source\": \"RATE_LIMIT\",\n    \"score\": 12,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32166241-46e4-4df5-9994-5241c87a8538",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "connect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"signals\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1714,\n  \"timestamp\": 5753,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e9833cd-96e6-4ff8-b612-9917172b2375",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "connect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"signals\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1714,\n  \"timestamp\": 5753,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5cc18469-e0f9-4069-b391-5ded7cc0eac0",
+    "name": "Ravelin Server 3D Secure Connect API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

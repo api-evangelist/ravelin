@@ -1,0 +1,459 @@
+{
+  "item": [
+    {
+      "id": "2005abd3-0425-4537-9119-2ade6642f6dc",
+      "name": "Transactions",
+      "description": {
+        "content": "Payment attempts, captures, refunds, and authorizations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d45211e-5327-4eb0-8e78-3cc03a733a3c",
+          "name": "Submit a Transaction Event",
+          "request": {
+            "name": "Submit a Transaction Event",
+            "description": {
+              "content": "Submit a transaction attempt (auth, capture, auth_capture, refund, void, preauth) for scoring and to keep Ravelin's transaction history in sync with the merchant's PSP.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "transaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"eventType\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  },\n  \"transaction\": {\n    \"transactionId\": \"<string>\",\n    \"time\": \"<long>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"type\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"gateway\": \"<string>\",\n    \"gatewayReference\": \"<string>\",\n    \"declineCode\": \"<string>\",\n    \"authCode\": \"<string>\",\n    \"3ds\": {\n      \"attempted\": \"<boolean>\",\n      \"challenged\": \"<boolean>\",\n      \"success\": \"<boolean>\",\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"liabilityShifted\": \"<boolean>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f2a413db-3943-4c2d-978a-4dfbdfadbc55",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"eventType\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  },\n  \"transaction\": {\n    \"transactionId\": \"<string>\",\n    \"time\": \"<long>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"type\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"gateway\": \"<string>\",\n    \"gatewayReference\": \"<string>\",\n    \"declineCode\": \"<string>\",\n    \"authCode\": \"<string>\",\n    \"3ds\": {\n      \"attempted\": \"<boolean>\",\n      \"challenged\": \"<boolean>\",\n      \"success\": \"<boolean>\",\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"liabilityShifted\": \"<boolean>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 5832,\n  \"timestamp\": 1599,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"ALLOW\",\n    \"source\": \"RAVELIN\",\n    \"score\": 99,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6f7619d-a7de-4338-a46b-e83f2f707b2a",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"eventType\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  },\n  \"transaction\": {\n    \"transactionId\": \"<string>\",\n    \"time\": \"<long>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"type\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"gateway\": \"<string>\",\n    \"gatewayReference\": \"<string>\",\n    \"declineCode\": \"<string>\",\n    \"authCode\": \"<string>\",\n    \"3ds\": {\n      \"attempted\": \"<boolean>\",\n      \"challenged\": \"<boolean>\",\n      \"success\": \"<boolean>\",\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"liabilityShifted\": \"<boolean>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 9553,\n  \"timestamp\": 1670,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac322bfb-b6ad-41f6-9b6d-0dd65654a591",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"orderId\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"eventType\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  },\n  \"transaction\": {\n    \"transactionId\": \"<string>\",\n    \"time\": \"<long>\",\n    \"amount\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"type\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"gateway\": \"<string>\",\n    \"gatewayReference\": \"<string>\",\n    \"declineCode\": \"<string>\",\n    \"authCode\": \"<string>\",\n    \"3ds\": {\n      \"attempted\": \"<boolean>\",\n      \"challenged\": \"<boolean>\",\n      \"success\": \"<boolean>\",\n      \"version\": \"<string>\",\n      \"eci\": \"<string>\",\n      \"liabilityShifted\": \"<boolean>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 9553,\n  \"timestamp\": 1670,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "993de03b-2845-4cc1-8456-2baf4432376a",
+          "name": "Submit a Payment Method",
+          "request": {
+            "name": "Submit a Payment Method",
+            "description": {
+              "content": "Submit a payment method associated with a customer for tokenization, link analysis, and risk scoring.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "payment-method"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1fb33998-c783-46dd-9d0c-e6e3d7b5d26d",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "payment-method"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7766,\n  \"timestamp\": 3644,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"REVIEW\",\n    \"source\": \"RULE\",\n    \"score\": 42,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd8506f4-0ff4-4357-bcb7-8ff1c9854025",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "payment-method"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 9553,\n  \"timestamp\": 1670,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88575b22-d9d0-4317-abf7-d52b024e5691",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "payment-method"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"paymentMethod\": {\n    \"methodType\": \"<string>\",\n    \"instrumentId\": \"<string>\",\n    \"bin\": \"<string>\",\n    \"last4\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 9553,\n  \"timestamp\": 1670,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7457a949-0456-4e8d-a739-d4ae8afb8eac",
+    "name": "Ravelin Server 3D Secure Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

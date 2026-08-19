@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "b2474537-0f68-4c84-a4f1-1ad99f1ce39c",
+      "id": "9782dbc9-1b6d-4385-bf4a-10682bd63029",
       "name": "Callbacks",
       "description": {
         "content": "Outbound webhook events delivered by Ravelin.",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "c30b5b5e-5601-4fa6-8ef6-e19ea9343618",
+          "id": "3bf9ea20-a62e-4327-ae7a-fe19217927cb",
           "name": "Receive an Order Decision Callback",
           "request": {
             "name": "Receive an Order Decision Callback",
@@ -49,7 +49,7 @@
           },
           "response": [
             {
-              "id": "edf90915-7cf5-49b5-b27a-e50d6305908b",
+              "id": "43681b71-36cd-4c65-a465-bf801756bfd7",
               "name": "Acknowledged.",
               "originalRequest": {
                 "url": {
@@ -64,6 +64,16 @@
                   "query": [],
                   "variable": []
                 },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
                 "method": "POST",
                 "body": {
                   "mode": "raw",
@@ -94,7 +104,7 @@
           }
         },
         {
-          "id": "41a0bb44-43fc-4c07-99ef-69f670824414",
+          "id": "ac210d02-b41b-4e48-9ee9-1e88e618e8e8",
           "name": "Receive a Manual Review Callback",
           "request": {
             "name": "Receive a Manual Review Callback",
@@ -134,7 +144,7 @@
           },
           "response": [
             {
-              "id": "596a4ed0-624b-450b-be8a-c326dab58cfc",
+              "id": "1ffabec0-9c6b-4be0-a578-db97ee106f02",
               "name": "Acknowledged.",
               "originalRequest": {
                 "url": {
@@ -149,6 +159,16 @@
                   "query": [],
                   "variable": []
                 },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
                 "method": "POST",
                 "body": {
                   "mode": "raw",
@@ -179,7 +199,7 @@
           }
         },
         {
-          "id": "e1ea4d3e-4f33-460a-8002-9956af821ed1",
+          "id": "511f8dfe-9126-448b-bcd8-91a3ef01d5ec",
           "name": "Receive a Refund Decision Callback",
           "request": {
             "name": "Receive a Refund Decision Callback",
@@ -219,7 +239,7 @@
           },
           "response": [
             {
-              "id": "b89d9609-ba2e-4441-aabb-dd1e70dc6057",
+              "id": "5e09bc21-20bd-4331-8a78-335ba280634b",
               "name": "Acknowledged.",
               "originalRequest": {
                 "url": {
@@ -234,6 +254,16 @@
                   "query": [],
                   "variable": []
                 },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
                 "method": "POST",
                 "body": {
                   "mode": "raw",
@@ -271,16 +301,33 @@
   "variable": [
     {
       "type": "string",
-      "value": "https://merchant.example.com",
+      "value": "https://3ds.live.pci.ravelin.com",
       "key": "baseUrl"
     }
   ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
   "info": {
-    "_postman_id": "92262352-ed8d-4e6f-9bd1-453d98cce71e",
-    "name": "Ravelin Callbacks API",
+    "_postman_id": "867c7807-b98a-443e-814a-f893e375addd",
+    "name": "Ravelin Server 3D Secure Callbacks API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
-      "content": "Outbound webhook callbacks that Ravelin POSTs to a merchant-configured HTTPS endpoint when\na manual review, order decision, or refund decision is completed inside the Ravelin dashboard.\nUsed to keep order-management, fulfillment, and customer-service systems in sync with\nhuman-in-the-loop review outcomes.\n\nEndpoint patterns are merchant-defined; the schemas below describe the request bodies that\nRavelin will deliver. Authentication uses an optional shared secret token configured per\ncallback.\n\nDocumentation: https://developer.ravelin.com/merchant/api/callbacks/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
       "type": "text/plain"
     }
   }

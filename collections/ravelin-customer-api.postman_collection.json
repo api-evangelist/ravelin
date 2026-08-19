@@ -1,0 +1,459 @@
+{
+  "item": [
+    {
+      "id": "6dd8be07-c19a-4352-b0bc-12d552a51adc",
+      "name": "Customer",
+      "description": {
+        "content": "Customer profile, identity, and label events.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b9d914a8-693a-4cc3-a7ca-5ae7a73857d3",
+          "name": "Submit a Customer Profile",
+          "request": {
+            "name": "Submit a Customer Profile",
+            "description": {
+              "content": "Submit or update a customer profile (identity, contact, account type, location, device) for risk scoring outside of an order context.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "customer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  },\n  \"custom\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2a6251f5-9fdc-46f1-93be-413ceff8a011",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  },\n  \"custom\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 5816,\n  \"timestamp\": 7822,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"BLOCK\",\n    \"source\": \"RULE\",\n    \"score\": 39,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c94aaac0-8c92-4ddd-a45a-96b6cc5f05c5",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  },\n  \"custom\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7182,\n  \"timestamp\": 4387,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78f5aa45-f553-4742-922a-1fbb5498af30",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  },\n  \"custom\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7182,\n  \"timestamp\": 4387,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f23fd177-ee32-41cd-b79b-5212a58f1d0e",
+          "name": "Apply a Customer Label",
+          "request": {
+            "name": "Apply a Customer Label",
+            "description": {
+              "content": "Apply or remove a fraud / trust label on a customer, e.g. to mark a customer as FRAUDULENT after a confirmed chargeback. Labels feed back into ML training.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "customer-label"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"label\": {\n    \"value\": \"<string>\",\n    \"note\": \"<string>\",\n    \"reviewer\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "26b040ca-67b1-4ffb-9b36-3e9245d51dc9",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer-label"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"label\": {\n    \"value\": \"<string>\",\n    \"note\": \"<string>\",\n    \"reviewer\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7785,\n  \"timestamp\": 9750,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"ALLOW\",\n    \"source\": \"RULE\",\n    \"score\": 3,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "973a25a7-822c-4755-b97b-8943adc26797",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer-label"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"label\": {\n    \"value\": \"<string>\",\n    \"note\": \"<string>\",\n    \"reviewer\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7182,\n  \"timestamp\": 4387,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01bfb9e9-3a9a-4075-9f8d-baec0d1067bc",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "customer-label"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"customerId\": \"<string>\",\n  \"label\": {\n    \"value\": \"<string>\",\n    \"note\": \"<string>\",\n    \"reviewer\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7182,\n  \"timestamp\": 4387,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ba6cfffb-e999-4531-a4a0-6a635cffd250",
+    "name": "Ravelin Server 3D Secure Customer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

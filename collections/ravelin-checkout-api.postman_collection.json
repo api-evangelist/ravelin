@@ -1,0 +1,254 @@
+{
+  "item": [
+    {
+      "id": "84375b3e-1654-400e-bb57-9b73efea803c",
+      "name": "Checkout",
+      "description": {
+        "content": "Pre-payment order risk scoring.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "64f826f0-9985-4fce-aeeb-7efab82add3e",
+          "name": "Score a Checkout Event",
+          "request": {
+            "name": "Score a Checkout Event",
+            "description": {
+              "content": "Submit an order at checkout to receive a real-time risk decision before payment is captured. Recommended as the primary pre-payment integration point.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "checkout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timestamp\": \"<long>\",\n  \"order\": {\n    \"orderId\": \"<string>\",\n    \"creationTime\": \"<long>\",\n    \"price\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"country\": \"<string>\",\n    \"note\": \"<string>\",\n    \"to\": \"<object>\",\n    \"suppliers\": [\n      \"<object>\",\n      \"<object>\"\n    ]\n  },\n  \"eventType\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"paymentMethods\": [\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    },\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    }\n  ],\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d8b7a4de-0584-459f-b9ee-a35b01691456",
+              "name": "Risk decision returned successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"order\": {\n    \"orderId\": \"<string>\",\n    \"creationTime\": \"<long>\",\n    \"price\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"country\": \"<string>\",\n    \"note\": \"<string>\",\n    \"to\": \"<object>\",\n    \"suppliers\": [\n      \"<object>\",\n      \"<object>\"\n    ]\n  },\n  \"eventType\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"paymentMethods\": [\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    },\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    }\n  ],\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 5957,\n  \"timestamp\": 9400,\n  \"message\": \"string\",\n  \"data\": {\n    \"action\": \"REVIEW\",\n    \"source\": \"RAVELIN\",\n    \"score\": 39,\n    \"scoreId\": \"string\",\n    \"customerId\": \"string\",\n    \"rules\": [\n      {\n        \"name\": \"string\",\n        \"state\": \"active\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"state\": \"passive\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d9e9b1a-40ca-497c-9d34-27048ce868c1",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"order\": {\n    \"orderId\": \"<string>\",\n    \"creationTime\": \"<long>\",\n    \"price\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"country\": \"<string>\",\n    \"note\": \"<string>\",\n    \"to\": \"<object>\",\n    \"suppliers\": [\n      \"<object>\",\n      \"<object>\"\n    ]\n  },\n  \"eventType\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"paymentMethods\": [\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    },\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    }\n  ],\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 618,\n  \"timestamp\": 9926,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "069dc225-f718-4b36-a861-2620c3b3cc24",
+              "name": "Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "checkout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"timestamp\": \"<long>\",\n  \"order\": {\n    \"orderId\": \"<string>\",\n    \"creationTime\": \"<long>\",\n    \"price\": \"<integer>\",\n    \"currency\": \"<string>\",\n    \"country\": \"<string>\",\n    \"note\": \"<string>\",\n    \"to\": \"<object>\",\n    \"suppliers\": [\n      \"<object>\",\n      \"<object>\"\n    ]\n  },\n  \"eventType\": \"<string>\",\n  \"customerId\": \"<string>\",\n  \"customer\": {\n    \"customerId\": \"<string>\",\n    \"email\": \"<email>\",\n    \"registrationTime\": \"<long>\",\n    \"emailVerifiedTime\": \"<long>\",\n    \"name\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"telephone\": \"<string>\",\n    \"telephoneVerifiedTime\": \"<long>\",\n    \"accountType\": \"<string>\",\n    \"location\": {\n      \"country\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"street\": \"<string>\",\n      \"city\": \"<string>\",\n      \"region\": \"<string>\"\n    }\n  },\n  \"paymentMethods\": [\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    },\n    {\n      \"methodType\": \"<string>\",\n      \"instrumentId\": \"<string>\",\n      \"bin\": \"<string>\",\n      \"last4\": \"<string>\"\n    }\n  ],\n  \"device\": {\n    \"deviceId\": \"<string>\",\n    \"ipAddress\": \"<string>\",\n    \"userAgent\": \"<string>\",\n    \"language\": \"<string>\",\n    \"location\": \"<object>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 618,\n  \"timestamp\": 9926,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://3ds.live.pci.ravelin.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6ff10172-5e84-43b5-99d4-5672a37d13cd",
+    "name": "Ravelin Server 3D Secure Checkout API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x\nAuthentication Request (AReq), Challenge, Result, and Version Lookup operations against\n3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted\nPAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,\nAEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),\nBrowser-based (BRW), and 3RI (3DS Requestor Initiated) channels.\n\nEndpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.\n\n\nContact Support:\n Name: Ravelin Support",
+      "type": "text/plain"
+    }
+  }
+}

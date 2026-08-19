@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Ravelin Server 3D Secure Transactions API",
+    "version": "1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a Transaction Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/transaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a transaction attempt (auth, capture, auth_capture, refund, void, preauth) for scoring and to keep Ravelin's transaction history in sync with the merchant's PSP."
+        },
+        {
+          "info": {
+            "name": "Submit a Payment Method",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://3ds.live.pci.ravelin.com/v2/payment-method",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a payment method associated with a customer for tokenization, link analysis, and risk scoring."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
