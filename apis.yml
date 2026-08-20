@@ -28,6 +28,15 @@ tags:
 - 3D Secure
 - Risk Scoring
 - Payments
+- Machine-Learning
+tags_raw:
+- Fraud Prevention
+- Fraud Detection
+- Chargeback Prevention
+- Account Takeover
+- 3D Secure
+- Risk Scoring
+- Payments
 - Machine Learning
 url: https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml
 created: '2026-05-25'
@@ -61,6 +70,11 @@ apis:
     fulfillment, and customer-service systems in sync with Ravelin's human-in-the-loop review outcomes.
   humanURL: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
   tags:
+  - Webhook
+  - Callbacks
+  - Manual Review
+  - Order Management
+  tags_raw:
   - Webhooks
   - Callbacks
   - Manual Review
@@ -230,6 +244,8 @@ apis:
   humanURL: https://developer.ravelin.com/merchant/
   baseURL: https://api.ravelin.com
   tags:
+  - Customers
+  tags_raw:
   - Customer
   properties:
   - type: OpenAPI
@@ -420,6 +436,8 @@ apis:
   humanURL: https://developer.ravelin.com/merchant/
   baseURL: https://api.ravelin.com
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
