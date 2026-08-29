@@ -7,6 +7,18 @@ description: Ravelin is a London-based fraud detection and prevention platform o
   consortium database of identity signals to score every customer interaction across checkout, login,
   registration, and post-transaction events.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -62,30 +74,6 @@ apis:
     url: https://developer.ravelin.com/
   - type: Authentication
     url: https://developer.ravelin.com/merchant/api/authentication/
-- aid: ravelin:ravelin-callbacks-api
-  name: Ravelin Callbacks API
-  description: >-
-    Outbound webhook callbacks delivered by Ravelin to merchant-configured endpoints when manual reviews,
-    order decisions, or refund decisions are completed in the Ravelin dashboard. Used to keep order-management,
-    fulfillment, and customer-service systems in sync with Ravelin's human-in-the-loop review outcomes.
-  humanURL: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
-  tags:
-  - Webhook
-  - Callbacks
-  - Manual Review
-  - Order Management
-  tags_raw:
-  - Webhooks
-  - Callbacks
-  - Manual Review
-  - Order Management
-  properties:
-  - type: Documentation
-    url: https://developer.ravelin.com/merchant/api/callbacks/order-decisions/
-  - type: APIReference
-    url: https://developer.ravelin.com/merchant/api/callbacks/
-  - type: OpenAPI
-    url: openapi/ravelin-callbacks-api-openapi.yml
 - aid: ravelin:ravelin-3d-secure-api
   name: Ravelin 3D Secure API
   description: EMV 3DS 2.x authentication operations.
