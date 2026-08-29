@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Ravelin Server 3D Secure API
   version: '1'
@@ -161,45 +161,6 @@ paths:
                 $ref: '#/components/schemas/AuthenticateResponse'
 components:
   schemas:
-    AuthenticateResponse:
-      type: object
-      properties:
-        transStatus:
-          type: string
-          enum:
-          - Y
-          - A
-          - N
-          - U
-          - C
-          - D
-          - R
-          - I
-          - S
-          description: 'Authentication outcome. Y=Authenticated, A=Attempted, N=Not authenticated,
-
-            U=Authentication unavailable, C=Challenge required, D=Challenge required (decoupled),
-
-            R=Rejected, I=Informational only, S=Challenge using cardholder-facing service.
-
-            '
-        authenticationValue:
-          type: string
-          description: CAVV / AAV / AEVV verification value, base64 encoded.
-        acsTransID:
-          type: string
-        threeDSServerTransID:
-          type: string
-        eci:
-          type: string
-        liabilityShifted:
-          type: boolean
-        acsURL:
-          type: string
-          format: uri
-        cReq:
-          type: string
-          description: Base64 Challenge Request payload, when transStatus=C.
     AuthenticateRequest:
       type: object
       required:
@@ -262,6 +223,45 @@ components:
               type: string
             mcc:
               type: string
+    AuthenticateResponse:
+      type: object
+      properties:
+        transStatus:
+          type: string
+          enum:
+          - Y
+          - A
+          - N
+          - U
+          - C
+          - D
+          - R
+          - I
+          - S
+          description: 'Authentication outcome. Y=Authenticated, A=Attempted, N=Not authenticated,
+
+            U=Authentication unavailable, C=Challenge required, D=Challenge required (decoupled),
+
+            R=Rejected, I=Informational only, S=Challenge using cardholder-facing service.
+
+            '
+        authenticationValue:
+          type: string
+          description: CAVV / AAV / AEVV verification value, base64 encoded.
+        acsTransID:
+          type: string
+        threeDSServerTransID:
+          type: string
+        eci:
+          type: string
+        liabilityShifted:
+          type: boolean
+        acsURL:
+          type: string
+          format: uri
+        cReq:
+          type: string
+          description: Base64 Challenge Request payload, when transStatus=C.
   securitySchemes:
     secretApiKey:
       type: apiKey

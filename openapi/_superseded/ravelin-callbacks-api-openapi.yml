@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Ravelin Server 3D Secure Callbacks API
   version: '1'
@@ -83,14 +83,6 @@ paths:
           description: Acknowledged.
 components:
   schemas:
-    Reviewer:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
     OrderDecisionEvent:
       type: object
       required:
@@ -106,6 +98,28 @@ components:
           - APPROVED
           - PENDING
           - REJECTED
+        reviewer:
+          $ref: '#/components/schemas/Reviewer'
+        timestamp:
+          type: string
+          format: date-time
+    ManualReviewEvent:
+      type: object
+      required:
+      - customerId
+      - label
+      - timestamp
+      properties:
+        customerId:
+          type: string
+        orderId:
+          type: string
+        label:
+          type: string
+          enum:
+          - FRAUDULENT
+          - TRUSTED
+          - UNKNOWN
         reviewer:
           $ref: '#/components/schemas/Reviewer'
         timestamp:
@@ -134,28 +148,14 @@ components:
         timestamp:
           type: string
           format: date-time
-    ManualReviewEvent:
+    Reviewer:
       type: object
-      required:
-      - customerId
-      - label
-      - timestamp
       properties:
-        customerId:
+        name:
           type: string
-        orderId:
+        email:
           type: string
-        label:
-          type: string
-          enum:
-          - FRAUDULENT
-          - TRUSTED
-          - UNKNOWN
-        reviewer:
-          $ref: '#/components/schemas/Reviewer'
-        timestamp:
-          type: string
-          format: date-time
+          format: email
   securitySchemes:
     secretApiKey:
       type: apiKey

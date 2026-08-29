@@ -1,21 +1,28 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Ravelin Server 3D Secure Connect API
-  version: '1'
-  description: 'Ravelin''s PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x
+  title: Ravelin Merchant Connect API
+  version: '2'
+  description: 'The Ravelin Merchant API is the REST surface used by merchants to submit customer, order, login,
 
-    Authentication Request (AReq), Challenge, Result, and Version Lookup operations against
+    registration, transaction, payment, voucher, supplier, dispute, refund, payout, and reclaim events
 
-    3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted
+    to Ravelin and receive back a real-time risk decision. Each endpoint is POST-only, accepts a JSON
 
-    PAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,
+    payload, and returns a decision envelope containing the recommended `action` (ALLOW / REVIEW /
 
-    AEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),
+    PREVENT), the decision `source`, a 0-100 fraud `score`, a unique `scoreId`, the triggered `rules`,
 
-    Browser-based (BRW), and 3RI (3DS Requestor Initiated) channels.
+    and any data-quality `warnings`.
 
 
-    Endpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.
+    Authentication is via an `Authorization: token sk_live_...` (or `sk_test_...`) header. Per-merchant
+
+    rate limits scale horizontally; a global per-customer rate limit of 50 events/minute is enforced
+
+    and returns a 200 with `action=PREVENT` and `source=RATE_LIMIT`.
+
+
+    Endpoints documented at https://developer.ravelin.com/merchant/api/.
 
     '
   contact:
@@ -25,8 +32,8 @@ info:
   license:
     name: Proprietary
 servers:
-- url: https://3ds.live.pci.ravelin.com
-  description: PCI 3DS production endpoint
+- url: https://api.ravelin.com
+  description: Production
 security:
 - secretApiKey: []
 tags:
@@ -54,25 +61,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Decision:
-      description: Risk decision returned successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DecisionResponse'
-    Unauthorized:
-      description: Invalid or missing API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -84,6 +72,20 @@ components:
           format: int64
         message:
           type: string
+    ConnectRequest:
+      type: object
+      required:
+      - timestamp
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        customerId:
+          type: string
+        signals:
+          type: array
+          items:
+            type: object
     DecisionResponse:
       type: object
       properties:
@@ -148,23 +150,28 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    ConnectRequest:
-      type: object
-      required:
-      - timestamp
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        customerId:
-          type: string
-        signals:
-          type: array
-          items:
-            type: object
+  responses:
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecisionResponse'
   securitySchemes:
     secretApiKey:
       type: apiKey
       in: header
       name: Authorization
-      description: Secret API key prefixed with `token`.
+      description: 'Secret API key prefixed with the literal word `token`, e.g. `Authorization: token sk_live_...`.'

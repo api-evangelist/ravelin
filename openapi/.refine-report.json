@@ -1,23 +1,12 @@
 {
   "provider": "ravelin",
   "sources": [
-    "ravelin-3d-secure-api-openapi.yml",
-    "ravelin-authentication-api-openapi.yml",
-    "ravelin-callbacks-api-openapi.yml",
-    "ravelin-checkout-api-openapi.yml",
-    "ravelin-connect-api-openapi.yml",
-    "ravelin-customer-api-openapi.yml",
-    "ravelin-disputes-api-openapi.yml",
-    "ravelin-payouts-api-openapi.yml",
-    "ravelin-refunds-api-openapi.yml",
-    "ravelin-supplier-api-openapi.yml",
-    "ravelin-transactions-api-openapi.yml",
-    "ravelin-vouchers-api-openapi.yml"
+    "_original/ravelin-3ds-server-api-openapi.yml",
+    "_original/ravelin-merchant-api-openapi.yml"
   ],
   "outputs": [
     "ravelin-3d-secure-api-openapi.yml",
     "ravelin-authentication-api-openapi.yml",
-    "ravelin-callbacks-api-openapi.yml",
     "ravelin-checkout-api-openapi.yml",
     "ravelin-connect-api-openapi.yml",
     "ravelin-customer-api-openapi.yml",
@@ -31,6 +20,23 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ravelin-3ds-server-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "ravelin-merchant-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0"
+  ],
+  "skipped": [
+    "ravelin-3d-secure-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-callbacks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-checkout-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-connect-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-customer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-disputes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-payouts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-refunds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-supplier-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ravelin-vouchers-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
