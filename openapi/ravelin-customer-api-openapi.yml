@@ -6,25 +6,7 @@ info:
 
     registration, transaction, payment, voucher, supplier, dispute, refund, payout, and reclaim events
 
-    to Ravelin and receive back a real-time risk decision. Each endpoint is POST-only, accepts a JSON
-
-    payload, and returns a decision envelope containing the recommended `action` (ALLOW / REVIEW /
-
-    PREVENT), the decision `source`, a 0-100 fraud `score`, a unique `scoreId`, the triggered `rules`,
-
-    and any data-quality `warnings`.
-
-
-    Authentication is via an `Authorization: token sk_live_...` (or `sk_test_...`) header. Per-merchant
-
-    rate limits scale horizontally; a global per-customer rate limit of 50 events/minute is enforced
-
-    and returns a 200 with `action=PREVENT` and `source=RATE_LIMIT`.
-
-
-    Endpoints documented at https://developer.ravelin.com/merchant/api/.
-
-    '
+    to Ravelin and receive back a real-time risk decision.'
   contact:
     name: Ravelin Support
     url: https://support.ravelin.com/
@@ -81,30 +63,26 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecisionResponse'
   schemas:
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
-    Device:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
-          type: object
     CustomerLabelRequest:
       type: object
       required:
@@ -129,51 +107,6 @@ components:
             note:
               type: string
             reviewer:
-              type: string
-    Customer:
-      type: object
-      properties:
-        customerId:
-          type: string
-          maxLength: 300
-        email:
-          type: string
-          format: email
-        registrationTime:
-          type: integer
-          format: int64
-        emailVerifiedTime:
-          type: integer
-          format: int64
-        name:
-          type: string
-        familyName:
-          type: string
-        givenName:
-          type: string
-        telephone:
-          type: string
-          description: E.164 format preferred.
-        telephoneVerifiedTime:
-          type: integer
-          format: int64
-        accountType:
-          type: string
-          enum:
-          - GUEST
-          - REGISTERED
-        location:
-          type: object
-          properties:
-            country:
-              type: string
-            postalCode:
-              type: string
-            street:
-              type: string
-            city:
-              type: string
-            region:
               type: string
     DecisionResponse:
       type: object
@@ -254,25 +187,74 @@ components:
           $ref: '#/components/schemas/Device'
         custom:
           type: object
-  responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Decision:
-      description: Risk decision returned successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DecisionResponse'
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+        message:
+          type: string
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: string
+          maxLength: 300
+        email:
+          type: string
+          format: email
+        registrationTime:
+          type: integer
+          format: int64
+        emailVerifiedTime:
+          type: integer
+          format: int64
+        name:
+          type: string
+        familyName:
+          type: string
+        givenName:
+          type: string
+        telephone:
+          type: string
+          description: E.164 format preferred.
+        telephoneVerifiedTime:
+          type: integer
+          format: int64
+        accountType:
+          type: string
+          enum:
+          - GUEST
+          - REGISTERED
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            postalCode:
+              type: string
+            street:
+              type: string
+            city:
+              type: string
+            region:
+              type: string
   securitySchemes:
     secretApiKey:
       type: apiKey

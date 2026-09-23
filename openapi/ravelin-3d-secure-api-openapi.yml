@@ -2,22 +2,7 @@ openapi: 3.2.0
 info:
   title: Ravelin Server 3D Secure API
   version: '1'
-  description: 'Ravelin''s PSP-agnostic, PCI 3DS-validated 3D Secure Server API. Implements EMV 3DS 2.x
-
-    Authentication Request (AReq), Challenge, Result, and Version Lookup operations against
-
-    3ds.live.pci.ravelin.com. Supports both encrypted payment method payloads and unencrypted
-
-    PAN, dynamic exemption routing, and card-scheme-specific authentication values (CAVV, AAV,
-
-    AEVV). Integrates with the Ravelin iOS, Android, and browser SDKs for App-based (APP),
-
-    Browser-based (BRW), and 3RI (3DS Requestor Initiated) channels.
-
-
-    Endpoint documentation: https://developer.ravelin.com/merchant/api/endpoints/3d-secure/.
-
-    '
+  description: Ravelin's PSP-agnostic, PCI 3DS-validated 3D Secure Server API.
   contact:
     name: Ravelin Support
     url: https://support.ravelin.com/
