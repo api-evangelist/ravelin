@@ -35,13 +35,12 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ravelin.png
 tags:
 - Fraud Prevention
-- Fraud Detection
 - Chargeback Prevention
 - Account Takeover
 - 3D Secure
 - Risk Scoring
 - Payments
-- Machine-Learning
+- Machine Learning
 tags_raw:
 - Fraud Prevention
 - Fraud Detection
@@ -51,6 +50,7 @@ tags_raw:
 - Risk Scoring
 - Payments
 - Machine Learning
+- Machine-Learning
 url: https://raw.githubusercontent.com/api-evangelist/ravelin/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'

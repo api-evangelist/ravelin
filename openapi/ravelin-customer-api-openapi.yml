@@ -63,51 +63,80 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Decision:
-      description: Risk decision returned successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DecisionResponse'
   schemas:
-    CustomerLabelRequest:
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: string
+          maxLength: 300
+        email:
+          type: string
+          format: email
+        registrationTime:
+          type: integer
+          format: int64
+        emailVerifiedTime:
+          type: integer
+          format: int64
+        name:
+          type: string
+        familyName:
+          type: string
+        givenName:
+          type: string
+        telephone:
+          type: string
+          description: E.164 format preferred.
+        telephoneVerifiedTime:
+          type: integer
+          format: int64
+        accountType:
+          type: string
+          enum:
+          - GUEST
+          - REGISTERED
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            postalCode:
+              type: string
+            street:
+              type: string
+            city:
+              type: string
+            region:
+              type: string
+    CustomerRequest:
       type: object
       required:
       - timestamp
-      - customerId
-      - label
+      - customer
       properties:
         timestamp:
           type: integer
           format: int64
-        customerId:
-          type: string
-        label:
+        customer:
+          $ref: '#/components/schemas/Customer'
+        device:
+          $ref: '#/components/schemas/Device'
+        custom:
           type: object
-          properties:
-            value:
-              type: string
-              enum:
-              - FRAUDULENT
-              - TRUSTED
-              - UNKNOWN
-            note:
-              type: string
-            reviewer:
-              type: string
     DecisionResponse:
       type: object
       properties:
@@ -172,21 +201,6 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    CustomerRequest:
-      type: object
-      required:
-      - timestamp
-      - customer
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        customer:
-          $ref: '#/components/schemas/Customer'
-        device:
-          $ref: '#/components/schemas/Device'
-        custom:
-          type: object
     Error:
       type: object
       properties:
@@ -197,64 +211,50 @@ components:
           format: int64
         message:
           type: string
-    Device:
+    CustomerLabelRequest:
       type: object
+      required:
+      - timestamp
+      - customerId
+      - label
       properties:
-        deviceId:
-          type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
-          type: object
-    Customer:
-      type: object
-      properties:
+        timestamp:
+          type: integer
+          format: int64
         customerId:
           type: string
-          maxLength: 300
-        email:
-          type: string
-          format: email
-        registrationTime:
-          type: integer
-          format: int64
-        emailVerifiedTime:
-          type: integer
-          format: int64
-        name:
-          type: string
-        familyName:
-          type: string
-        givenName:
-          type: string
-        telephone:
-          type: string
-          description: E.164 format preferred.
-        telephoneVerifiedTime:
-          type: integer
-          format: int64
-        accountType:
-          type: string
-          enum:
-          - GUEST
-          - REGISTERED
-        location:
+        label:
           type: object
           properties:
-            country:
+            value:
               type: string
-            postalCode:
+              enum:
+              - FRAUDULENT
+              - TRUSTED
+              - UNKNOWN
+            note:
               type: string
-            street:
+            reviewer:
               type: string
-            city:
-              type: string
-            region:
-              type: string
+  responses:
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecisionResponse'
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     secretApiKey:
       type: apiKey
