@@ -44,12 +44,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    Decision:
-      description: Risk decision returned successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DecisionResponse'
     RateLimited:
       description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
       content:
@@ -62,6 +56,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecisionResponse'
   schemas:
     PayoutRequest:
       type: object
@@ -85,6 +85,16 @@ components:
               type: string
             method:
               type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+        message:
+          type: string
     DecisionResponse:
       type: object
       properties:
@@ -149,16 +159,6 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
   securitySchemes:
     secretApiKey:
       type: apiKey

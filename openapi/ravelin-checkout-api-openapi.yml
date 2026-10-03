@@ -48,54 +48,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Device:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
-          type: object
-    CheckoutRequest:
-      type: object
-      required:
-      - timestamp
-      - order
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        eventType:
-          type: string
-        customerId:
-          type: string
-        customer:
-          $ref: '#/components/schemas/Customer'
-        order:
-          $ref: '#/components/schemas/Order'
-        paymentMethods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentMethod'
-        device:
-          $ref: '#/components/schemas/Device'
-    PaymentMethod:
-      type: object
-      properties:
-        methodType:
-          type: string
-          description: card | wallet | bank | paypal | cash | other
-        instrumentId:
-          type: string
-        bin:
-          type: string
-        last4:
-          type: string
     Customer:
       type: object
       properties:
@@ -141,6 +93,94 @@ components:
               type: string
             region:
               type: string
+    Order:
+      type: object
+      required:
+      - orderId
+      - creationTime
+      - price
+      - currency
+      properties:
+        orderId:
+          type: string
+        creationTime:
+          type: integer
+          format: int64
+        price:
+          type: integer
+          description: Total price in the currency's basic units.
+        currency:
+          type: string
+          description: ISO 4217 currency code.
+        country:
+          type: string
+        note:
+          type: string
+          maxLength: 4000
+        to:
+          type: object
+        suppliers:
+          type: array
+          items:
+            type: object
+    CheckoutRequest:
+      type: object
+      required:
+      - timestamp
+      - order
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        eventType:
+          type: string
+        customerId:
+          type: string
+        customer:
+          $ref: '#/components/schemas/Customer'
+        order:
+          $ref: '#/components/schemas/Order'
+        paymentMethods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentMethod'
+        device:
+          $ref: '#/components/schemas/Device'
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
+    PaymentMethod:
+      type: object
+      properties:
+        methodType:
+          type: string
+          description: card | wallet | bank | paypal | cash | other
+        instrumentId:
+          type: string
+        bin:
+          type: string
+        last4:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+        message:
+          type: string
     DecisionResponse:
       type: object
       properties:
@@ -205,46 +245,6 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    Order:
-      type: object
-      required:
-      - orderId
-      - creationTime
-      - price
-      - currency
-      properties:
-        orderId:
-          type: string
-        creationTime:
-          type: integer
-          format: int64
-        price:
-          type: integer
-          description: Total price in the currency's basic units.
-        currency:
-          type: string
-          description: ISO 4217 currency code.
-        country:
-          type: string
-        note:
-          type: string
-          maxLength: 4000
-        to:
-          type: object
-        suppliers:
-          type: array
-          items:
-            type: object
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
   responses:
     RateLimited:
       description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.

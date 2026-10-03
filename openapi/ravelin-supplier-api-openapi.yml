@@ -64,19 +64,29 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Device:
+    SupplierLabelRequest:
       type: object
+      required:
+      - timestamp
+      - supplierId
+      - label
       properties:
-        deviceId:
+        timestamp:
+          type: integer
+          format: int64
+        supplierId:
           type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
+        label:
           type: object
+          properties:
+            value:
+              type: string
+              enum:
+              - FRAUDULENT
+              - TRUSTED
+              - UNKNOWN
+            note:
+              type: string
     SupplierRequest:
       type: object
       required:
@@ -104,29 +114,29 @@ components:
               format: int64
         device:
           $ref: '#/components/schemas/Device'
-    SupplierLabelRequest:
+    Device:
       type: object
-      required:
-      - timestamp
-      - supplierId
-      - label
       properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
         timestamp:
           type: integer
           format: int64
-        supplierId:
+        message:
           type: string
-        label:
-          type: object
-          properties:
-            value:
-              type: string
-              enum:
-              - FRAUDULENT
-              - TRUSTED
-              - UNKNOWN
-            note:
-              type: string
     DecisionResponse:
       type: object
       properties:
@@ -191,23 +201,7 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
   responses:
-    Decision:
-      description: Risk decision returned successfully.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DecisionResponse'
     RateLimited:
       description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
       content:
@@ -220,6 +214,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Decision:
+      description: Risk decision returned successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DecisionResponse'
   securitySchemes:
     secretApiKey:
       type: apiKey
