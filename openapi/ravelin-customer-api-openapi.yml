@@ -64,79 +64,16 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Customer:
+    Error:
       type: object
       properties:
-        customerId:
-          type: string
-          maxLength: 300
-        email:
-          type: string
-          format: email
-        registrationTime:
+        status:
           type: integer
-          format: int64
-        emailVerifiedTime:
-          type: integer
-          format: int64
-        name:
-          type: string
-        familyName:
-          type: string
-        givenName:
-          type: string
-        telephone:
-          type: string
-          description: E.164 format preferred.
-        telephoneVerifiedTime:
-          type: integer
-          format: int64
-        accountType:
-          type: string
-          enum:
-          - GUEST
-          - REGISTERED
-        location:
-          type: object
-          properties:
-            country:
-              type: string
-            postalCode:
-              type: string
-            street:
-              type: string
-            city:
-              type: string
-            region:
-              type: string
-    CustomerRequest:
-      type: object
-      required:
-      - timestamp
-      - customer
-      properties:
         timestamp:
           type: integer
           format: int64
-        customer:
-          $ref: '#/components/schemas/Customer'
-        device:
-          $ref: '#/components/schemas/Device'
-        custom:
-          type: object
-    Device:
-      type: object
-      properties:
-        deviceId:
+        message:
           type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
-          type: object
     CustomerLabelRequest:
       type: object
       required:
@@ -162,16 +99,6 @@ components:
               type: string
             reviewer:
               type: string
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
     DecisionResponse:
       type: object
       properties:
@@ -236,13 +163,80 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
+    CustomerRequest:
+      type: object
+      required:
+      - timestamp
+      - customer
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        customer:
+          $ref: '#/components/schemas/Customer'
+        device:
+          $ref: '#/components/schemas/Device'
+        custom:
+          type: object
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: string
+          maxLength: 300
+        email:
+          type: string
+          format: email
+        registrationTime:
+          type: integer
+          format: int64
+        emailVerifiedTime:
+          type: integer
+          format: int64
+        name:
+          type: string
+        familyName:
+          type: string
+        givenName:
+          type: string
+        telephone:
+          type: string
+          description: E.164 format preferred.
+        telephoneVerifiedTime:
+          type: integer
+          format: int64
+        accountType:
+          type: string
+          enum:
+          - GUEST
+          - REGISTERED
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            postalCode:
+              type: string
+            street:
+              type: string
+            city:
+              type: string
+            region:
+              type: string
   responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid or missing API key.
       content:
@@ -255,6 +249,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/DecisionResponse'
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     secretApiKey:
       type: apiKey

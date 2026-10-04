@@ -64,29 +64,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    SupplierLabelRequest:
-      type: object
-      required:
-      - timestamp
-      - supplierId
-      - label
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        supplierId:
-          type: string
-        label:
-          type: object
-          properties:
-            value:
-              type: string
-              enum:
-              - FRAUDULENT
-              - TRUSTED
-              - UNKNOWN
-            note:
-              type: string
     SupplierRequest:
       type: object
       required:
@@ -114,19 +91,29 @@ components:
               format: int64
         device:
           $ref: '#/components/schemas/Device'
-    Device:
+    SupplierLabelRequest:
       type: object
+      required:
+      - timestamp
+      - supplierId
+      - label
       properties:
-        deviceId:
+        timestamp:
+          type: integer
+          format: int64
+        supplierId:
           type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
+        label:
           type: object
+          properties:
+            value:
+              type: string
+              enum:
+              - FRAUDULENT
+              - TRUSTED
+              - UNKNOWN
+            note:
+              type: string
     Error:
       type: object
       properties:
@@ -201,13 +188,20 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
+    Device:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
+        language:
+          type: string
+        location:
+          type: object
   responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid or missing API key.
       content:
@@ -220,6 +214,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/DecisionResponse'
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     secretApiKey:
       type: apiKey

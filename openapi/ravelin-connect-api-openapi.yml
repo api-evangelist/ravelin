@@ -44,6 +44,16 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+        message:
+          type: string
     ConnectRequest:
       type: object
       required:
@@ -58,16 +68,6 @@ components:
           type: array
           items:
             type: object
-    Error:
-      type: object
-      properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
     DecisionResponse:
       type: object
       properties:
@@ -133,12 +133,6 @@ components:
               items:
                 type: object
   responses:
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid or missing API key.
       content:
@@ -151,6 +145,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/DecisionResponse'
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     secretApiKey:
       type: apiKey
