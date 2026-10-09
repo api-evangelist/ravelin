@@ -1,35 +1,33 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/ravelin-3ds-server-api-openapi.yml, openapi/ravelin-callbacks-api-openapi.yml,
-  openapi/ravelin-merchant-api-openapi.yml
+source: openapi/ravelin-3d-secure-api-openapi.yml, openapi/ravelin-authentication-api-openapi.yml,
+  openapi/ravelin-checkout-api-openapi.yml, openapi/ravelin-connect-api-openapi.yml, openapi/ravelin-customer-api-openapi.yml,
+  openapi/ravelin-disputes-api-openapi.yml, openapi/ravelin-payouts-api-openapi.yml, openapi/ravelin-refunds-api-openapi.yml,
+  openapi/ravelin-supplier-api-openapi.yml, openapi/ravelin-transactions-api-openapi.yml, openapi/ravelin-vouchers-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 24
+  operations: 21
   by_action_class:
-    acting: 24
+    connected: 2
+    acting: 19
   by_consequence:
-    write: 15
-    physical: 9
+    read: 2
+    physical: 7
+    write: 12
   human_in_the_loop_required: 0
 operations:
 - path: /3ds/version
   method: post
   operationId: lookup3dsVersion
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /3ds/authenticate
   method: post
   operationId: authenticate3ds
@@ -70,39 +68,15 @@ operations:
   method: post
   operationId: result3ds
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /webhooks/ravelin/order-decisions
+      max-ttl: 3600
+    audit: none
+- path: /v3/login
   method: post
-  operationId: receiveOrderDecision
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /webhooks/ravelin/manual-reviews
-  method: post
-  operationId: receiveManualReview
+  operationId: createLoginV3
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -116,18 +90,16 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /webhooks/ravelin/refund-decisions
+- path: /v2/registration
   method: post
-  operationId: receiveRefundDecision
+  operationId: createRegistration
   x-agentic-access:
     action-class: acting
-    consequence: physical
+    consequence: write
     subject: required
     audience: null
     token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
+      max-ttl: 900
     escalation:
       human-in-the-loop: conditional
       triggers:
@@ -152,61 +124,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v2/transaction
+- path: /v2/connect
   method: post
-  operationId: createTransaction
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/payment-method
-  method: post
-  operationId: createPaymentMethod
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/refund
-  method: post
-  operationId: createRefund
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/dispute
-  method: post
-  operationId: createDispute
+  operationId: createConnect
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -252,25 +172,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v3/login
+- path: /v2/dispute
   method: post
-  operationId: createLoginV3
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/registration
-  method: post
-  operationId: createRegistration
+  operationId: createDispute
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -294,6 +198,108 @@ operations:
     audience: null
     token:
       max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/payout
+  method: post
+  operationId: createPayout
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/refund
+  method: post
+  operationId: createRefund
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/supplier
+  method: post
+  operationId: createSupplier
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/supplier-label
+  method: post
+  operationId: createSupplierLabel
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/transaction
+  method: post
+  operationId: createTransaction
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/payment-method
+  method: post
+  operationId: createPaymentMethod
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
     escalation:
       human-in-the-loop: conditional
       triggers:
@@ -344,72 +350,6 @@ operations:
       max-ttl: 300
       exchange: true
       purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/supplier
-  method: post
-  operationId: createSupplier
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/supplier-label
-  method: post
-  operationId: createSupplierLabel
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/payout
-  method: post
-  operationId: createPayout
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v2/connect
-  method: post
-  operationId: createConnect
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
     escalation:
       human-in-the-loop: conditional
       triggers:
