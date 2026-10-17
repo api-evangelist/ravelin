@@ -84,16 +84,31 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Error:
+    VoucherRequest:
       type: object
+      required:
+      - timestamp
+      - voucher
       properties:
-        status:
-          type: integer
         timestamp:
           type: integer
           format: int64
-        message:
+        customerId:
           type: string
+        voucher:
+          type: object
+          properties:
+            voucherId:
+              type: string
+            code:
+              type: string
+            value:
+              type: integer
+            currency:
+              type: string
+            redeemedTime:
+              type: integer
+              format: int64
     DecisionResponse:
       type: object
       properties:
@@ -158,34 +173,19 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    VoucherRequest:
+    Error:
       type: object
-      required:
-      - timestamp
-      - voucher
       properties:
+        status:
+          type: integer
         timestamp:
           type: integer
           format: int64
-        customerId:
+        message:
           type: string
-        voucher:
-          type: object
-          properties:
-            voucherId:
-              type: string
-            code:
-              type: string
-            value:
-              type: integer
-            currency:
-              type: string
-            redeemedTime:
-              type: integer
-              format: int64
   responses:
-    Unauthorized:
-      description: Invalid or missing API key.
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
       content:
         application/json:
           schema:
@@ -196,8 +196,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/DecisionResponse'
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+    Unauthorized:
+      description: Invalid or missing API key.
       content:
         application/json:
           schema:

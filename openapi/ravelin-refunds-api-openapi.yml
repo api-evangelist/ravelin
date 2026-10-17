@@ -54,30 +54,6 @@ components:
           format: int64
         message:
           type: string
-    RefundRequest:
-      type: object
-      required:
-      - timestamp
-      - orderId
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        orderId:
-          type: string
-        customerId:
-          type: string
-        refund:
-          type: object
-          properties:
-            refundId:
-              type: string
-            amount:
-              type: integer
-            currency:
-              type: string
-            reason:
-              type: string
     DecisionResponse:
       type: object
       properties:
@@ -142,9 +118,33 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
+    RefundRequest:
+      type: object
+      required:
+      - timestamp
+      - orderId
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        orderId:
+          type: string
+        customerId:
+          type: string
+        refund:
+          type: object
+          properties:
+            refundId:
+              type: string
+            amount:
+              type: integer
+            currency:
+              type: string
+            reason:
+              type: string
   responses:
-    Unauthorized:
-      description: Invalid or missing API key.
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
       content:
         application/json:
           schema:
@@ -155,8 +155,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/DecisionResponse'
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+    Unauthorized:
+      description: Invalid or missing API key.
       content:
         application/json:
           schema:

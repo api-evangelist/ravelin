@@ -48,51 +48,64 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    PaymentMethod:
+    Device:
       type: object
       properties:
-        methodType:
+        deviceId:
           type: string
-          description: card | wallet | bank | paypal | cash | other
-        instrumentId:
+        ipAddress:
           type: string
-        bin:
+        userAgent:
           type: string
-        last4:
+        language:
           type: string
-    Error:
+        location:
+          type: object
+    Customer:
       type: object
       properties:
-        status:
-          type: integer
-        timestamp:
-          type: integer
-          format: int64
-        message:
-          type: string
-    CheckoutRequest:
-      type: object
-      required:
-      - timestamp
-      - order
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-        eventType:
-          type: string
         customerId:
           type: string
-        customer:
-          $ref: '#/components/schemas/Customer'
-        order:
-          $ref: '#/components/schemas/Order'
-        paymentMethods:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentMethod'
-        device:
-          $ref: '#/components/schemas/Device'
+          maxLength: 300
+        email:
+          type: string
+          format: email
+        registrationTime:
+          type: integer
+          format: int64
+        emailVerifiedTime:
+          type: integer
+          format: int64
+        name:
+          type: string
+        familyName:
+          type: string
+        givenName:
+          type: string
+        telephone:
+          type: string
+          description: E.164 format preferred.
+        telephoneVerifiedTime:
+          type: integer
+          format: int64
+        accountType:
+          type: string
+          enum:
+          - GUEST
+          - REGISTERED
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            postalCode:
+              type: string
+            street:
+              type: string
+            city:
+              type: string
+            region:
+              type: string
     DecisionResponse:
       type: object
       properties:
@@ -157,64 +170,28 @@ components:
               description: Data-quality warnings flagged on the input payload.
               items:
                 type: object
-    Device:
+    Error:
       type: object
       properties:
-        deviceId:
+        status:
+          type: integer
+        timestamp:
+          type: integer
+          format: int64
+        message:
           type: string
-        ipAddress:
-          type: string
-        userAgent:
-          type: string
-        language:
-          type: string
-        location:
-          type: object
-    Customer:
+    PaymentMethod:
       type: object
       properties:
-        customerId:
+        methodType:
           type: string
-          maxLength: 300
-        email:
+          description: card | wallet | bank | paypal | cash | other
+        instrumentId:
           type: string
-          format: email
-        registrationTime:
-          type: integer
-          format: int64
-        emailVerifiedTime:
-          type: integer
-          format: int64
-        name:
+        bin:
           type: string
-        familyName:
+        last4:
           type: string
-        givenName:
-          type: string
-        telephone:
-          type: string
-          description: E.164 format preferred.
-        telephoneVerifiedTime:
-          type: integer
-          format: int64
-        accountType:
-          type: string
-          enum:
-          - GUEST
-          - REGISTERED
-        location:
-          type: object
-          properties:
-            country:
-              type: string
-            postalCode:
-              type: string
-            street:
-              type: string
-            city:
-              type: string
-            region:
-              type: string
     Order:
       type: object
       required:
@@ -245,15 +222,38 @@ components:
           type: array
           items:
             type: object
+    CheckoutRequest:
+      type: object
+      required:
+      - timestamp
+      - order
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        eventType:
+          type: string
+        customerId:
+          type: string
+        customer:
+          $ref: '#/components/schemas/Customer'
+        order:
+          $ref: '#/components/schemas/Order'
+        paymentMethods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentMethod'
+        device:
+          $ref: '#/components/schemas/Device'
   responses:
-    Unauthorized:
-      description: Invalid or missing API key.
+    RateLimited:
+      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Per-merchant rate limit exceeded. Ravelin retains and processes the data after the limit clears, but the response is a 429.
+    Unauthorized:
+      description: Invalid or missing API key.
       content:
         application/json:
           schema:
